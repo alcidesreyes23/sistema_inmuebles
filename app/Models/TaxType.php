@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class TaxType extends Model
 {
     use HasFactory;
+
+    public function taxes() {
+        return $this->hasMany('App\Models\Tax');
+    }
 }
