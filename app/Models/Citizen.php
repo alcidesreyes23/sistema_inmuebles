@@ -9,6 +9,10 @@ class Citizen extends Model
 {
     use HasFactory;
 
+    public function properties(){
+        return $this->hasMany('App\Models\Property');
+    }
+
     protected $fillable = [
         'nombres',
         'apellidos', 

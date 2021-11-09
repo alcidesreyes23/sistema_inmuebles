@@ -17,6 +17,12 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
+        $this->call(PropertyTypeSeeder::class);
+        $this->call(ResidenceAreaSeeder::class);
+        $this->call(SuburbsSeeder::class);
+        $this->call(TaxTypeSeeder::class);
+        $this->call(TaxSeeder::class);
+
         /*Usuario Admin del Sitio*/
         $user = new User();
         $user->name = 'admin';
