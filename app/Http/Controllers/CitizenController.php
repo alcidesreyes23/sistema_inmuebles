@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Citizen;
+use App\Models\Binnacle;
 use Illuminate\Http\Request;
 
 class CitizenController extends Controller
@@ -64,6 +65,12 @@ class CitizenController extends Controller
             
             $newData->save();
 
+            $log = new Binnacle();
+            $log->titulo = "Insert";
+            $log->descripcion = "Registro de nuevo ciudadano";
+            $log->username = auth()->user()->name;
+            $log->save();
+
             return response()->json();
         }
     }
@@ -85,9 +92,13 @@ class CitizenController extends Controller
      * @param  \App\Models\Citizen  $citizen
      * @return \Illuminate\Http\Response
      */
-    public function edit(Citizen $citizen)
+    public function edit($id, Request $request)
     {
-        //
+         //obtener los datos
+         if (request()->ajax()) {
+            $data = Citizen::findOrFail($id);
+            return response()->json($data);
+        }
     }
 
     /**
@@ -97,9 +108,33 @@ class CitizenController extends Controller
      * @param  \App\Models\Citizen  $citizen
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Citizen $citizen)
+    public function update(Request $request)
     {
-        //
+        if (request()->ajax()) {
+            $data = request()->except('_token');
+            $array = ([
+                'nombres' => $data['nombres'],
+                'apellidos' => $data['apellidos'],
+                'edad' => $data['edad'],
+                'genero' => $data['genero'],
+                'dui' => $data['dui'],
+                'nit' => $data['nit'],
+                'fecha_nacimiento' => $data['fecha_nacimiento'],
+                'posee_inmueble' => $data['posee_inmueble'],
+            ]);
+
+            Citizen::where('id', '=', $request->id)->update($array);
+
+            $log = new Binnacle();
+            $log->titulo = "Update";
+            $log->descripcion = "Actualizacion de Ciudadano";
+            $log->username = auth()->user()->name;
+            $log->save();
+
+
+            return response()->json($data);
+            
+        }
     }
 
     /**
@@ -113,6 +148,13 @@ class CitizenController extends Controller
          //eliminar
          if (request()->ajax()) {
             Citizen::destroy($id);
+
+            $log = new Binnacle();
+            $log->titulo = "Delete";
+            $log->descripcion = "Eliminación de Ciudadano";
+            $log->username = auth()->user()->name;
+            $log->save();
+
             return response()->json();
         }
     }

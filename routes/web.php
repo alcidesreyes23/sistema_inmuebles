@@ -58,3 +58,5 @@ Route::get('/citizens',[CitizenController::class,'index'])->name('citizens.index
 Route::get('/citizens/cargarDatos', [CitizenController::class, 'cargarDatos']);
 Route::post('/citizens/store', [CitizenController::class, 'store'])->name('citizens.store');
 Route::get('/citizens/delete/{id}', [CitizenController::class, 'destroy']);
+Route::get('/citizens/edit/{id}', [CitizenController::class, 'edit']);
+Route::put('/citizens/update', [CitizenController::class, 'update'])->name('citizens.update');

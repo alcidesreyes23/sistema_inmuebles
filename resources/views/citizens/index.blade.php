@@ -84,21 +84,46 @@
                   @method('PUT')
                   @csrf
                       <input type="hidden" id="id" name="id">
-                      <div class="col-12 col-sm-12 col-md-12 my-2">
-                        <input class="form-control" type="text" id="name" name="name" placeholder="Nombre" data-validetta="required">
-                      </div> 
-                      <div class="col-12 col-sm-12 col-md-12 my-2">
-                        <input class="form-control" type="email" id="email" name="email" placeholder="Email" data-validetta="required">
-                      </div> 
-                      <div class="col-12 col-sm-12 col-md-12 my-2">
-                        <select name="rol" id="sRol" class="form-control rounded-md shadow-sm mt-1 block w-full">
-                              <option value="" selected>-- Rol --</option>
-                              <option value="Admin">Admin</option>
-                              <option value="Castro">Castro</option>
-                              <option value="Auxiliar">Auxiliar</option>
+                      <div class="col-12 col-sm-12 col-md-6 my-2">
+                        <p class="text-muted text-gray">Nombres</p>
+                          <input class="form-control" type="text" id="nombres" name="nombres" placeholder="Nombres" data-validetta="required">
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-6 my-2">
+                        <p class="text-muted text-gray">Apellidos</p>
+                        <input class="form-control" type="text" id="apellidos" name="apellidos" placeholder="Apellidos" data-validetta="required">
+                   </div>
+                   <div class="col-12 col-sm-12 col-md-6 my-2">
+                    <p class="text-muted text-gray">Género</p>
+                    <select name="genero" id="sGenero" class="form-control rounded-md shadow-sm mt-1 block w-full">
+                          <option value="" selected>-- Género --</option>
+                          <option value="Hombre">Hombre</option>
+                          <option value="Mujer">Mujer</option>
+                      </select>
+                  </div> 
+                  <div class="col-12 col-sm-12 col-md-6 my-2">
+                    <p class="text-muted text-gray">Edad</p>
+                  <input class="form-control" type="number" id="edad" name="edad" placeholder="Edad" data-validetta="required">
+                </div> 
+                <div class="col-12 col-sm-12 col-md-6 my-2">
+                    <p class="text-muted text-gray">Fecha Nacimiento</p>
+                    <input class="form-control" type="date" id="fecha_nacimiento" name="fecha_nacimiento" placeholder="NACIMIENTO" data-validetta="required">
+                </div>    
+                   <div class="col-12 col-sm-12 col-md-6 my-2">
+                    <p class="text-muted text-gray">Número de Dui</p>
+                        <input class="form-control" type="text" id="dui" name="dui" placeholder="DUI" data-validetta="required">
+                   </div>
+                   <div class="col-12 col-sm-12 col-md-6 my-2">
+                    <p class="text-muted text-gray">Número de Nit</p>
+                        <input class="form-control" type="text" id="nit" name="nit" placeholder="NIT" data-validetta="required">
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-6 my-2">
+                        <p class="text-muted text-gray">Posee Inmueble</p>
+                        <select name="posee_inmueble" id="sPropietario" class="form-control rounded-md shadow-sm mt-1 block w-full">
+                              <option value="" selected>-- Propietario Inmueble --</option>
+                              <option value="Si">Si</option>
+                              <option value="No">No</option>
                           </select>
                       </div>
-                      
                 </div>
               </form>
           </div>
@@ -152,7 +177,7 @@
           var data = form.serialize()
           $.ajax({
               type: "POST",
-              url: "/personas/update",
+              url: "/citizens/update",
               dataType: "json",
               data:data,
               success: function (response) {
@@ -164,7 +189,7 @@
               }
             
           },error: function(){
-                  toastr.error("Error: Registro Actualizado", "Operacion No Completada");
+                  toastr.error("Error: Registro No Actualizado", "Operacion No Completada");
               }
           }) 
 
@@ -175,14 +200,22 @@
         $.ajax({
             type: "GET",
             dataType: "json",
-            url: "/personas/edit/" + idEditar,
+            url: "/citizens/edit/" + idEditar,
             success: function (r) {
                 $("#exampleModal").modal("show");//abro el modal
                 $("#id").val(r['id']);
-                $("#name").val(r['name']);
-                $("#email").val(r['email']);
-                var rol = r['rol'];
-               $("#sRol option[value='"+ rol +"']").attr("selected",true);
+                $("#nombres").val(r['nombres']);
+                $("#apellidos").val(r['apellidos']);
+                $("#edad").val(r['edad']);
+                $("#dui").val(r['dui']);
+                $("#nit").val(r['nit']);
+                $("#fecha_nacimiento").val(r['fecha_nacimiento']);
+                var genero = r['genero'];
+                var posee_inmueble = r['posee_inmueble'];
+                //var fecha = r['fecha_nacimiento'];
+                $("#sGenero option[value='"+ genero +"']").attr("selected",true);
+                $("#sPropietario option[value='"+ posee_inmueble +"']").attr("selected",true);
+                //$("#fecha option[value='"+ fecha +"']").attr("selected",true);
 
                // $("#sRol option[value="r['rol']"]").attr("selected",true);
             },
