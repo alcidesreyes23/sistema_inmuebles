@@ -14,7 +14,7 @@ class CreatePropertyTypesTable extends Migration
     public function up()
     {
         Schema::create('property_types', function (Blueprint $table) {
-            $table->id()->autoIncrement();
+            $table->id();
             $table->string('tipo_inmueble');
             $table->integer('cantidad');
             $table->timestamps();

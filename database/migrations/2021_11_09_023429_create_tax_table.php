@@ -14,7 +14,7 @@ class CreateTaxTable extends Migration
     public function up()
     {
         Schema::create('taxes', function (Blueprint $table) {
-            $table->id()->autoIncrement();
+            $table->id();
             $table->string('tributo');
             $table->float('costo');
             $table->unsignedBigInteger('taxtype_id')->nullable();

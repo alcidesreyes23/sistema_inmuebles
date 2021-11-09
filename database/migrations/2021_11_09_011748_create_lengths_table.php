@@ -14,7 +14,7 @@ class CreateLengthsTable extends Migration
     public function up()
     {
         Schema::create('lengths', function (Blueprint $table) {
-            $table->id()->autoIncrement();
+            $table->id();
             $table->float('ancho')->nullable();
             $table->float('alto')->nullable();
             $table->float('total');

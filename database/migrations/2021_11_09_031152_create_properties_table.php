@@ -14,7 +14,7 @@ class CreatePropertiesTable extends Migration
     public function up()
     {
         Schema::create('properties', function (Blueprint $table) {
-            $table->id()->autoIncrement();
+            $table->id();
             $table->unsignedBigInteger('ciudadano_id')->nullable();
             $table->unsignedBigInteger('colonia_id')->nullable();
             $table->unsignedBigInteger('tipo_inmueble_id')->nullable();

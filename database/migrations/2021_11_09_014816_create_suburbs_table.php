@@ -14,7 +14,7 @@ class CreateSuburbsTable extends Migration
     public function up()
     {
         Schema::create('suburbs', function (Blueprint $table) {
-            $table->id()->autoIncrement();
+            $table->id();
             $table->string('colonia');
             $table->integer('cantidad');
             $table->timestamps();

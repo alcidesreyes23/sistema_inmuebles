@@ -14,7 +14,7 @@ class CreateTaxTypesTable extends Migration
     public function up()
     {
         Schema::create('tax_types', function (Blueprint $table) {
-            $table->id()->autoIncrement();
+            $table->id();
             $table->string('tipo_tributo');
             $table->timestamps();
         });

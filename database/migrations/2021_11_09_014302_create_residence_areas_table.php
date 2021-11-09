@@ -14,7 +14,7 @@ class CreateResidenceAreasTable extends Migration
     public function up()
     {
         Schema::create('residence_areas', function (Blueprint $table) {
-            $table->id()->autoIncrement();
+            $table->id();
             $table->text('zona');
             $table->integer('cantidad');
             $table->timestamps();
