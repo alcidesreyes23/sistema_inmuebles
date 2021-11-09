@@ -190,7 +190,7 @@
             toastr.error("Exito: Registro Eliminado", "Operacion Exitosa");
         }
     })
-    e.preventDefault();
+      e.preventDefault();
 });
 
     function listado() {

@@ -15,13 +15,14 @@ class CreateCitizensTable extends Migration
     {
         Schema::create('citizens', function (Blueprint $table) {
             $table->id();
-            $table->string('nombres',50);
-            $table->string('apellidos',50);
-            $table->string('dui',10);
-            $table->string('nit',17);
-            $table->string('fecha_nacimiento',50);
+            $table->string('nombres', 50);
+            $table->string('apellidos', 50);
+            $table->string('dui', 10);
+            $table->string('nit', 17);
+            $table->string('fecha_nacimiento', 50);
             $table->integer('edad');
-            $table->string('posee_inmueble',2);
+            $table->string('genero', 10);
+            $table->string('posee_inmueble', 2);
             $table->timestamps();
         });
     }

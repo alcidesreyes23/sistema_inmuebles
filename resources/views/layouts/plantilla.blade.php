@@ -56,7 +56,7 @@
               <a class="dropdown-item">
                 <form action="{{ route('logout') }}" method="POST">  
                     @csrf
-                    <button type="submit" class="btn btn-sm font-weight-bold">
+                    <button type="submit" class="btn btn-sm btn-inverse-danger font-weight-bold">
                         Log Out
                       </button>
                   </form> 
@@ -82,11 +82,16 @@
           <li class="nav-item">
             <a class="nav-link" href="{{route('personas.index')}}">
               <i class="icon-grid menu-icon"></i>
-              <span class="menu-title">Registro de Usuarios</span>
+              <span class="menu-title">Gestión Usuarios</span>
             </a>
           </li>
           @endif
-
+          <li class="nav-item">
+            <a class="nav-link" href="{{route('citizens.index')}}">
+              <i class="icon-grid menu-icon"></i>
+              <span class="menu-title">Gestión Ciudadanos</span>
+            </a>
+          </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">
                   <i class="icon-grid menu-icon"></i>

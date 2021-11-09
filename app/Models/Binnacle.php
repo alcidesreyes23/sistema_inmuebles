@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Binnacle extends Model
 {
     use HasFactory;
+    
+    protected $fillable = [
+        'titulo',
+        'descripcion',
+        'username',
+    ];
 }

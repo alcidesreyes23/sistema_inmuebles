@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Models\Binnacle;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -43,6 +43,12 @@ class PersonaController extends Controller
 
             $newData->save();
 
+            $log = new Binnacle();
+            $log->titulo = "Insert";
+            $log->descripcion = "Registro de nuevo usuario";
+            $log->username = auth()->user()->name;
+            $log->save();
+
             return response()->json();
         }
     }
@@ -52,6 +58,13 @@ class PersonaController extends Controller
         //eliminar
         if (request()->ajax()) {
             User::destroy($id);
+
+            $log = new Binnacle();
+            $log->titulo = "Delete";
+            $log->descripcion = "Eliminación de Usuario";
+            $log->username = auth()->user()->name;
+            $log->save();
+
             return response()->json();
         }
     }
@@ -88,7 +101,16 @@ class PersonaController extends Controller
                 'rol' => $data['rol'],
             ]);
             User::where('id', '=', $request->id)->update($array);
+
+            $log = new Binnacle();
+            $log->titulo = "Update";
+            $log->descripcion = "Actualizacion de Usuario";
+            $log->username = auth()->user()->name;
+            $log->save();
+
+
             return response()->json($data);
+            
         }
 
     }

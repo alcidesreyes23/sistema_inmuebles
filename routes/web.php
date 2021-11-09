@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CitizenController;
 use App\Http\Controllers\PersonaController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,15 +15,27 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/************************************************************************/
+/*****************************VIEW INICIAL*******************************/
+/************************************************************************/
+
 Route::get('/', function () {
     return view('auth.login');
 });
+
+/************************************************************************/
+/****************************AUTENTICACION*******************************/
+/************************************************************************/
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/layouts', function () {
     return view('layouts.index');
 })->name('index');
 
-/*Crear usuarios desde el admin*/
+
+/************************************************************************/
+/***********************USUARIOS CRUD ADMIN******************************/
+/************************************************************************/
+
 // Mostrar Pagina.
 Route::get('/personas', [PersonaController::class, 'index'])->name('personas.index')->middleware('auth');
 //Cargar DataTable mediante AJAX.
@@ -36,3 +49,12 @@ Route::get('/personas/edit/{id}', [PersonaController::class, 'edit']);
 //Actualizando Datos
 Route::put('/personas/update', [PersonaController::class, 'update'])->name('personas.update');
 
+
+/************************************************************************/
+/***************CIUDADANOS CRUD ADMIN-JEFE-AUXILIAR**********************/
+/************************************************************************/
+
+Route::get('/citizens',[CitizenController::class,'index'])->name('citizens.index')->middleware('auth');
+Route::get('/citizens/cargarDatos', [CitizenController::class, 'cargarDatos']);
+Route::post('/citizens/store', [CitizenController::class, 'store'])->name('citizens.store');
+Route::get('/citizens/delete/{id}', [CitizenController::class, 'destroy']);

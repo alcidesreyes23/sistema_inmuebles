@@ -18,7 +18,6 @@ class CreateBinnaclesTable extends Migration
             $table->string('titulo');
             $table->string('descripcion');
             $table->string('username');
-            $table->dateTime('fechaLog');
             $table->timestamps();
         });
     }
