@@ -62,14 +62,21 @@ class CitizenController extends Controller
             $newData->posee_inmueble = $request->posee_inmueble;
             $newData->edad = $request->edad;
             $newData->fecha_nacimiento = $request->fecha_nacimiento;
+            $newData->save();
+
+
+            if($request->posee_inmueble == 'Si')
+            {
+                $lastId = Citizen::latest('id')->first();
+                
+                //return redirect()->route('properties.index2',$lastId);
+                //return App(PropertyController::class)->detalles($lastId);
+                
+            }
             
             $newData->save();
 
-            $log = new Binnacle();
-            $log->titulo = "Insert";
-            $log->descripcion = "Registro de nuevo ciudadano";
-            $log->username = auth()->user()->name;
-            $log->save();
+            app(BinnacleController::class)->store("Insert", "Registro de nuevo Ciudadano", auth()->user()->name);
 
 
             return response()->json();
@@ -126,13 +133,7 @@ class CitizenController extends Controller
 
             Citizen::where('id', '=', $request->id)->update($array);
 
-            $log = new Binnacle();
-            $log->titulo = "Update";
-            $log->descripcion = "Actualizacion de Ciudadano";
-            $log->username = auth()->user()->name;
-            $log->save();
-
-
+            app(BinnacleController::class)->store("Update", "Actualizacion de Ciudadano", auth()->user()->name);
             return response()->json($data);
             
         }
@@ -150,11 +151,7 @@ class CitizenController extends Controller
          if (request()->ajax()) {
             Citizen::destroy($id);
 
-            $log = new Binnacle();
-            $log->titulo = "Delete";
-            $log->descripcion = "Eliminación de Ciudadano";
-            $log->username = auth()->user()->name;
-            $log->save();
+            app(BinnacleController::class)->store("Delete", "Eliminacion de Ciudadano", auth()->user()->name);
 
             return response()->json();
         }

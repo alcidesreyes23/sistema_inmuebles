@@ -7,10 +7,6 @@
     <div id="categorie-table" class="modal-body table-responsive">
 
     </div>
-    <a href="{{route('properties.index2')}}" id="enviar"class="btn  btn-info text-white">
-        <i class="ti-home"></i>
-      </a>
-
 
 @endsection
 
@@ -25,11 +21,11 @@
     function listado() {
     var id = 1;
     $.ajax({
-        url: "/properties/cargarDetalle/"  + id,
+        url: "/citizens/cargarDatos",
         dataType: "json",
         success: function (data) {
             console.log(data);
-          /* html = "<table class='table table-striped' id='tablafiltro' width='100%'><thead>";
+            html = "<table class='table table-striped' id='tablafiltro' width='100%'><thead>";
             html += "<tr><th scope='col'>NOMBRES</th><th scope='col'>APELLIDOS</th><th scope='col'>GÉNERO</th>";
             html += "<th scope='col'>DUI</th><th scope='col'>NIT</th><th scope='col'>NACIMIENTO</th>";
             html += "<th scope='col'>EDAD</th><th scope='col'>PROPIETARIO</th><th scope='col'>ACCIONES</th></tr></thead>";
@@ -46,14 +42,14 @@
                 html += "<td>" + data[key]['edad'] + "</td>";
                 html += "<td>" + data[key]['posee_inmueble'] + "</td>";
                 html += `<td>
-                <a href="<?php echo "hola como estan"; ?>" id="enviar" value="${data[key]['id']}" class="btn  btn-info text-white">
+                <a href="/properties/detalles/${data[key]['id']}" id="enviar" value="${data[key]['id']}" class="btn  btn-info text-white">
                   <i class="ti-home"></i>
                 </a>`;
                 
                 html += `</td>`;
             }
             html += "</tr></tbody></table>"
-            $("#categorie-table").html(html);*/
+            $("#categorie-table").html(html);
             //tabla filtro
             $('#tablafiltro').DataTable({
                 "language": {

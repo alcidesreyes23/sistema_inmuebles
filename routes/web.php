@@ -123,13 +123,16 @@ Route::put('/property-type/update', [PropertyTypeController::class, 'update'])->
 Route::get('/binnacle', [BinnacleController::class, 'index'])->name('binnacle.index')->middleware('auth');
 Route::get('/binnacle/show', [BinnacleController::class, 'show']);
 
+
 /***************INMUEBLES CRUD ADMIN-JEFE-AUXILIAR**********************/
 /************************************************************************/
 
 Route::get('/properties',[PropertyController::class,'index'])->name('properties.index');
-Route::get('/properties/cargarDetalle', [PropertyController::class, 'cargarDetalle']);
-Route::get('/properties/detalles/', [PropertyController::class, 'detalles'])->name('properties.index2');
-//Route::get('/personas/delete/{id}', [PersonaController::class, 'destroy']);
-
+Route::get('/properties/cargarDetalle/{id}', [PropertyController::class, 'cargarDetalle']);
+Route::get('/properties/detalles/{id}', [PropertyController::class, 'detalles'])->name('properties.index2');
+Route::get('/properties/edit/{id}', [PropertyController::class, 'edit']);
+Route::post('/properties/store', [PropertyController::class, 'store'])->name('properties.store');
+Route::put('/properties/update', [PropertyController::class, 'update'])->name('properties.update');
+Route::get('/properties/delete/{id}', [PropertyController::class, 'destroy']);
 
 

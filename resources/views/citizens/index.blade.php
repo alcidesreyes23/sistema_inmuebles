@@ -212,12 +212,8 @@
                 $("#fecha_nacimiento").val(r['fecha_nacimiento']);
                 var genero = r['genero'];
                 var posee_inmueble = r['posee_inmueble'];
-                //var fecha = r['fecha_nacimiento'];
                 $("#sGenero option[value='"+ genero +"']").attr("selected",true);
                 $("#sPropietario option[value='"+ posee_inmueble +"']").attr("selected",true);
-                //$("#fecha option[value='"+ fecha +"']").attr("selected",true);
-
-               // $("#sRol option[value="r['rol']"]").attr("selected",true);
             },
         });
         e.preventDefault();
@@ -279,11 +275,7 @@
                 <a href="#" id="del" value="${data[key]['id']}" class="btn  btn-danger text-white">
                   <i class="icon-trash"></i>
                 </a>
-                <a  href="#" id="addPro" value="${data[key]['id']}" class="btn  btn-infotext-white">
-                  Add P
-                </a>
                 </td>`;
-                ' <a  class="btn btn-primary mt-2  btn-md" id="btnPropiedad">Asignar Propiedad</a>'
 
             }
             html += "</tr></tbody></table>"

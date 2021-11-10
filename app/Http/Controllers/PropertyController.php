@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Citizen;
 use App\Models\Property;
+use App\Models\PropertyType;
+use App\Models\ResidenceArea;
+use App\Models\Suburb;
 use Illuminate\Http\Request;
 
 class PropertyController extends Controller
@@ -23,26 +27,18 @@ class PropertyController extends Controller
 
     public function detalles($id)
     {
-        return 'Hola Detalles';
+        $colonias = Suburb::all();
+        $tipos = PropertyType::all();
+        $zonas = ResidenceArea::all();
+        return View('properties.detalle',compact('id','colonias','tipos','zonas'));
     }
 
 
     public function cargarDetalle($id)
     {
-        //listado
-        //$data = Persona::orderBy('id', 'DESC')->get();
-        /*
-            select s.colonia, pt.tipo_inmueble, l.total, ra.zona, p.pasaje, p.calle
-            from properties p
-            INNER JOIN suburbs s on s.id = p.colonia_id
-            INNER JOIN property_types pt on pt.id = p.tipo_inmueble_id
-            INNER JOIN lengths l on l.id = p.longitud_id
-            INNER JOIN residence_areas ra on ra.id = p.zona_residencia_id
-            where p.ciudadano_id = 1
-        */
         if (request()->ajax()) {
             $data = Property::where("ciudadano_id","=",$id)
-            ->select('suburbs.colonia','property_types.tipo_inmueble','residence_areas.zona','properties.pasaje','properties.calle')
+            ->select('properties.id','suburbs.id as idColonia','suburbs.colonia','property_types.tipo_inmueble','residence_areas.zona','properties.pasaje','properties.calle','properties.ancho','properties.largo','properties.total')
                         ->join('suburbs','suburbs.id','=','properties.colonia_id')
                         ->join('property_types','property_types.id','=','properties.tipo_inmueble_id')
                         ->join('residence_areas','residence_areas.id','=','properties.zona_residencia_id')
@@ -70,7 +66,26 @@ class PropertyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if ($request->ajax()) {
+
+            $newData = new Property();
+            $newData->ciudadano_id = $request->idCiudadano; 
+            $newData->colonia_id = $request->colonia;  
+            $newData->tipo_inmueble_id = $request->tipo;
+            $newData->zona_residencia_id = $request->zona;
+            $newData->ancho = $request->ancho;
+            $newData->largo = $request->largo;
+            $newData->total = $request->ancho * $request->largo;
+            $newData->pasaje = $request->pasaje;
+            $newData->calle = $request->calle;
+            
+            $newData->save();
+            /*Actualizando el campo para aquellos ciudadanos que no tenian propiedad en un Inicio*/
+            Citizen::where('id', $request->idCiudadano)->update(array('posee_inmueble' => 'Si'));
+
+            app(BinnacleController::class)->store("Insert", "Registro de nueva propiedad", auth()->user()->name);
+            return response()->json();
+        }
     }
 
     /**
@@ -90,9 +105,13 @@ class PropertyController extends Controller
      * @param  \App\Models\Property  $property
      * @return \Illuminate\Http\Response
      */
-    public function edit(Property $property)
+    public function edit($id, Request $request)
     {
-        //
+         //obtener los datos
+         if (request()->ajax()) {
+            $data = Property::findOrFail($id);
+            return response()->json($data);
+        }
     }
 
     /**
@@ -102,9 +121,29 @@ class PropertyController extends Controller
      * @param  \App\Models\Property  $property
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Property $property)
+    public function update(Request $request)
     {
-        //
+        if (request()->ajax()) {
+            $data = request()->except('_token');
+            $array = ([
+                'ciudadano_id' => $data['idCiudadano'],
+                'colonia_id' => $data['colonia'],
+                'tipo_inmueble_id' => $data['tipo'],
+                'zona_residencia_id' => $data['zona'],
+                'numero_inmueble' => 0,
+                'ancho' => $data['ancho'],
+                'largo' => $data['largo'],
+                'total' => $data['ancho'] * $data['largo'],
+                'pasaje' => $data['pasaje'],
+                'calle' => $data['calle'],
+            ]);
+
+            Property::where('id', '=', $request->idPro)->update($array);
+
+            app(BinnacleController::class)->store("Update", "Actualizacion de propiedad", auth()->user()->name);
+            return response()->json($data);
+            
+        }
     }
 
     /**
@@ -113,8 +152,14 @@ class PropertyController extends Controller
      * @param  \App\Models\Property  $property
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Property $property)
+    public function destroy($id)
     {
-        //
+         //eliminar
+         if (request()->ajax()) {
+            Property::destroy($id);
+
+            app(BinnacleController::class)->store("Delete", "Eliminación de propiedad", auth()->user()->name);
+            return response()->json();
+        }
     }
 }
