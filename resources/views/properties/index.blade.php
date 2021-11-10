@@ -45,7 +45,7 @@
                 <a href="/properties/detalles/${data[key]['id']}" id="enviar" value="${data[key]['id']}" class="btn  btn-info text-white">
                   <i class="ti-home"></i>
                 </a>`;
-                
+
                 html += `</td>`;
             }
             html += "</tr></tbody></table>"

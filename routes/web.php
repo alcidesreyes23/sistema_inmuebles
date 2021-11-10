@@ -8,6 +8,7 @@ use App\Http\Controllers\SuburbController;
 use App\Http\Controllers\TaxTypeController;
 use App\Http\Controllers\TaxController;
 use App\Http\Controllers\PropertyController;
+use App\Http\Controllers\PropertyTypeController;
 use Illuminate\Support\Facades\Route;
 
 /*

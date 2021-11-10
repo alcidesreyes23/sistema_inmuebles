@@ -14,7 +14,10 @@ class TaxController extends Controller
 
     public function index()
     {
-        return view('tax.index');
+        $data = Tax::select('taxes.id', 'taxes.tributo', 'taxes.costo', 'tax_types.tipo_tributo')
+                ->join('tax_types', 'tax_types.id', '=', 'taxes.taxtype_id')
+                ->get();
+        return view('tax.index',compact('data'));
     }
 
     public function create()
@@ -24,6 +27,12 @@ class TaxController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'tributo' => 'required',
+            'costo' => 'required|numeric',
+            'taxtype_id' => 'required'
+        ]);
+
         if ($request->ajax()) {
             $newData = new Tax();
             $newData->tributo = $request->tributo;
@@ -55,6 +64,12 @@ class TaxController extends Controller
 
     public function update(Request $request, Tax $tax)
     {
+        $request->validate([
+            'tributo' => 'required',
+            'costo' => 'required|numeric',
+            'taxtype_id' => 'required'
+        ]);
+
         if (request()->ajax()) {
             $data = request()->except('_token');
             $array = ([

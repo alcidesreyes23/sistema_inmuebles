@@ -14,7 +14,8 @@ class SuburbController extends Controller
 
     public function index()
     {
-        //
+        $data = Suburb::all();
+        return view('suburb.index',compact('data'));
     }
 
     public function create()
@@ -24,7 +25,18 @@ class SuburbController extends Controller
 
     public function store(Request $request)
     {
-        app(BinnacleController::class)->store("Insert", "Registro de nuevo colonia.", auth()->user()->name);
+        $request->validate([
+            'colonia' => 'required'
+        ]);
+
+        if ($request->ajax()) {
+            $newData = new Suburb();
+            $newData->colonia = $request->colonia;
+            $newData->cantidad = 0;
+            $newData->save();
+            app(BinnacleController::class)->store("Insert", "Registro de nuevo colonia.", auth()->user()->name);
+            return response()->json();
+        }
     }
 
     public function show()
@@ -35,18 +47,39 @@ class SuburbController extends Controller
         }
     }
 
-    public function edit(Suburb $suburb)
+    public function edit($id,Suburb $suburb)
     {
-        //
+        if (request()->ajax()) {
+            $data = Suburb::findOrFail($id);
+            return response()->json($data);
+        }
     }
 
     public function update(Request $request, Suburb $suburb)
     {
-        app(BinnacleController::class)->store("Update", "Actualizacion de colonia.", auth()->user()->name);
+        $request->validate([
+            'colonia' => 'required',
+            'cantidad' => 'required|integer'
+        ]);
+
+        if (request()->ajax()) {
+            $data = request()->except('_token');
+            $array = ([
+                'colonia' => $data['colonia'],
+                'cantidad' => $data['cantidad'],
+            ]);
+            Suburb::where('id', '=', $request->id)->update($array);
+            app(BinnacleController::class)->store("Update", "Actualizacion de colonia.", auth()->user()->name);
+            return response()->json($data);
+        }
     }
 
-    public function destroy(Suburb $suburb)
+    public function destroy($id,Suburb $suburb)
     {
-        app(BinnacleController::class)->store("Delete", "Eliminación de colonia.", auth()->user()->name);
+        if (request()->ajax()) {
+            Suburb::destroy($id);
+            app(BinnacleController::class)->store("Delete", "Eliminación de colonia.", auth()->user()->name);
+            return response()->json();
+        }
     }
 }

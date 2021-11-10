@@ -14,17 +14,29 @@ class ResidenceAreaController extends Controller
 
     public function index()
     {
-        //
+        $data = ResidenceArea::all();
+        return view('residence-area.index',compact('data'));
     }
 
     public function create()
     {
-        app(BinnacleController::class)->store("Insert", "Registro de nuevo area de residencia.", auth()->user()->name);
+        //
     }
 
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'zona' => 'required'
+        ]);
+
+        if ($request->ajax()) {
+            $newData = new ResidenceArea();
+            $newData->zona = $request->zona;
+            $newData->cantidad = 0;
+            $newData->save();
+            app(BinnacleController::class)->store("Insert", "Registro de nuevo area de residencia.", auth()->user()->name);
+            return response()->json();
+        }
     }
 
     public function show()
@@ -35,18 +47,39 @@ class ResidenceAreaController extends Controller
         }
     }
 
-    public function edit(ResidenceArea $residenceArea)
+    public function edit($id,ResidenceArea $residenceArea)
     {
-        //
+        if (request()->ajax()) {
+            $data = ResidenceArea::findOrFail($id);
+            return response()->json($data);
+        }
     }
 
     public function update(Request $request, ResidenceArea $residenceArea)
     {
-        app(BinnacleController::class)->store("Update", "Actualizacion de area de residencia.", auth()->user()->name);
+        $request->validate([
+            'zona' => 'required',
+            'cantidad' => 'required|integer'
+        ]);
+
+        if (request()->ajax()) {
+            $data = request()->except('_token');
+            $array = ([
+                'zona' => $data['zona'],
+                'cantidad' => $data['cantidad'],
+            ]);
+            ResidenceArea::where('id', '=', $request->id)->update($array);
+            app(BinnacleController::class)->store("Update", "Actualizacion de area de residencia.", auth()->user()->name);
+            return response()->json($data);
+        }
     }
 
-    public function destroy(ResidenceArea $residenceArea)
+    public function destroy($id,ResidenceArea $residenceArea)
     {
-        app(BinnacleController::class)->store("Delete", "Eliminación de area de residencia.", auth()->user()->name);
+        if (request()->ajax()) {
+            ResidenceArea::destroy($id);
+            app(BinnacleController::class)->store("Delete", "Eliminación de area de residencia.", auth()->user()->name);
+            return response()->json();
+        }
     }
 }

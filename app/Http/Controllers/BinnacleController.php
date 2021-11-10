@@ -14,7 +14,8 @@ class BinnacleController extends Controller
 
     public function index()
     {
-        //
+        $data = Binnacle::all();
+        return view('binnacle.index',compact('data'));
     }
 
     public function create()

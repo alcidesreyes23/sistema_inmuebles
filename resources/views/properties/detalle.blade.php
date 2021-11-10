@@ -236,12 +236,12 @@
                     var idColonia = r['colonia_id'];
                     var idTipo = r['tipo_inmueble_id'];
                     var idZona = r['zona_residencia_id'];
-                   
+
                 //var fecha = r['fecha_nacimiento'];
                 $("#sColonia option[value='"+ idColonia +"']").attr("selected",true);
                 $("#sTipo option[value='"+ idTipo +"']").attr("selected",true);
                 $("#sZona option[value='"+ idZona +"']").attr("selected",true);
-                
+
                 },
             });
             e.preventDefault();

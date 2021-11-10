@@ -16,7 +16,26 @@
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
             <div id="categorie-table">
-
+                <table class='table table-striped p-3' id='tablafiltro' width='100%' cellspacing='0'>
+                    <thead>
+                        <tr>
+                            <th scope='col'>ID</th>
+                            <th scope='col'>TIPO TRIBUTO</th>
+                            <th scope='col'>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($data as $data)
+                            <tr>
+                                <td>{{ $data->id }}</td>
+                                <td>{{ $data->tipo_tributo }}</td>
+                                <td><a href="#" id="edit" value="{{ $data->id }}" class="btn  btn-warning"> Editar </a>
+                                    <a href="#" id="del" value="{{ $data->id }}" class="btn  btn-danger"> Eliminar </a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
         <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
@@ -26,8 +45,8 @@
                     <div class="row justify-content-center">
                         <div class="col-12 col-sm-12 col-md-6 my-2">
                             <label class="form-label">Ingrese el nombre de la categoria:</label>
-                            <input class="form-control" type="text" id="" name="tipo_tributo" placeholder="Nombre..."
-                                data-validetta="required">
+                            <input class="form-control" type="text" id="" name="tipo_tributo" placeholder="Nombre...">
+                            <small id="ti" class="text-danger"></small>
                         </div>
                         <div class="col-12 mt-1 text-center card-footer bg-transparent border-primary">
                             <button class="btn btn-primary mt-2  btn-md" id="btnGuardar">Agregar</button>
@@ -52,9 +71,10 @@
                             @csrf
                             <input type="hidden" id="id" name="id">
                             <div class="col-12 col-sm-12 col-md-12 my-2">
-                                <label class="form-label">Ingrese el nombre de la categoria:</label>
-                                <input class="form-control" type="text" id="tipo_tributo" name="tipo_tributo" placeholder="Nombre..."
-                                    data-validetta="required">
+                                <label class="form-label">Nombre de la categoria:</label>
+                                <input class="form-control" type="text" id="tipo_tributo" name="tipo_tributo"
+                                    placeholder="Nombre...">
+                                <small id="tia" class="text-danger"></small>
                             </div>
                         </div>
                     </form>
@@ -75,7 +95,11 @@
 @section('js')
     <script>
         $(document).ready(function() {
-            listado();
+            $('#tablafiltro').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                }
+            });
         });
 
         $("#btnGuardar").click(function(e) {
@@ -96,15 +120,14 @@
                     toastr.success(mensaje, 'Nuevo Registro', {
                         timeOut: 4000
                     });
-
-                    // Actualizamos los datos de la DataTable sin Inicializar
-                    listado();
+                    location.reload();
                 },
-                error: function() {
-                    console.log('ERROR')
+                error: function(res) {
+                    const errors = res.responseJSON.errors;
+                    (errors.tipo_tributo != undefined) ? $("#ti").text(`*${errors.tipo_tributo}`): $(
+                        "#ti").hide();
                 }
             })
-
         });
 
         $("#btnActualizar").click(function(e) {
@@ -120,11 +143,13 @@
                         toastr.success("Exito: Registro Actualizado", "Operacion Exitosa");
                         $("#exampleModal").modal("hide");
                         $("#miFormulario2")[0].reset();
-                        listado();
+                        location.reload();
                     }
                 },
-                error: function() {
-                    toastr.error("Error: Registro Actualizado", "Operacion No Completada");
+                error: function(res) {
+                    const errors = res.responseJSON.errors;
+                    (errors.tipo_tributo != undefined) ? $("#tia").text(`*${errors.tipo_tributo}`): $("#tia").hide();
+                    toastr.error("Error: Registro NO Actualizado", "Operacion No Completada");
                 }
             })
         });
@@ -161,49 +186,14 @@
                         dataType: "json",
                         url: "/tax-types/delete/" + idEliminar,
                         success: function(response) {
-                            listado();
+                            location.reload();
                         }
                     });
-                    toastr.error("Exito: Registro Eliminado", "Operacion Exitosa");
+                    toastr.success("Exito: Registro Eliminado", "Operacion Exitosa");
                 }
             })
             e.preventDefault();
         });
-
-        function listado() {
-            $.ajax({
-                type: "GET",
-                url: "/tax-types/show",
-                dataType: "json",
-                success: function(data) {
-                    html =  "<table class='table table-striped p-3' id='tablafiltro' width='100%' cellspacing='0'><thead>";
-                    html += "<tr><th scope='col'>ID</th><th scope='col'>TIPO TRIBUTO</th><th scope='col'>Acciones</th></tr></thead>";
-                    html += "<tbody>";
-                    //var tbody = "<tbody>";
-                    for (var key in data) {
-                        html += "<tr>";
-                        html += "<td>" + data[key]['id'] + "</td>";
-                        html += "<td>" + data[key]['tipo_tributo'] + "</td>";
-                        html += `<td>
-                <a href="#" id="edit" value="${data[key]['id']}" class="btn  btn-warning">
-                Editar
-                </a>
-                <a href="#" id="del" value="${data[key]['id']}" class="btn  btn-danger">
-                Eliminar
-                </a>
-                </td>`;
-                    }
-                    html += "</tr></tbody></table>"
-                    $("#categorie-table").html(html);
-                    //tabla filtro
-                    $('#tablafiltro').DataTable({
-                        "language": {
-                            "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
-                        }
-                    });
-                }
-            });
-        }
     </script>
 
 @endsection

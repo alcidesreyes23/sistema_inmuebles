@@ -27,10 +27,7 @@ class PropertyController extends Controller
 
     public function detalles($id)
     {
-        $colonias = Suburb::all();
-        $tipos = PropertyType::all();
-        $zonas = ResidenceArea::all();
-        return View('properties.detalle',compact('id','colonias','tipos','zonas'));
+        return view('properties.detalle',compact('id'));
     }
 
 
@@ -69,8 +66,8 @@ class PropertyController extends Controller
         if ($request->ajax()) {
 
             $newData = new Property();
-            $newData->ciudadano_id = $request->idCiudadano; 
-            $newData->colonia_id = $request->colonia;  
+            $newData->ciudadano_id = $request->idCiudadano;
+            $newData->colonia_id = $request->colonia;
             $newData->tipo_inmueble_id = $request->tipo;
             $newData->zona_residencia_id = $request->zona;
             $newData->ancho = $request->ancho;
@@ -78,7 +75,7 @@ class PropertyController extends Controller
             $newData->total = $request->ancho * $request->largo;
             $newData->pasaje = $request->pasaje;
             $newData->calle = $request->calle;
-            
+
             $newData->save();
             /*Actualizando el campo para aquellos ciudadanos que no tenian propiedad en un Inicio*/
             Citizen::where('id', $request->idCiudadano)->update(array('posee_inmueble' => 'Si'));
@@ -142,7 +139,7 @@ class PropertyController extends Controller
 
             app(BinnacleController::class)->store("Update", "Actualizacion de propiedad", auth()->user()->name);
             return response()->json($data);
-            
+
         }
     }
 

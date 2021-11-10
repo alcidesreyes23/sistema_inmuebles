@@ -14,7 +14,8 @@ class PropertyTypeController extends Controller
 
     public function index()
     {
-        //
+        $data = PropertyType::all();
+        return view('property-type.index',compact('data'));
     }
 
     public function create()
@@ -24,7 +25,18 @@ class PropertyTypeController extends Controller
 
     public function store(Request $request)
     {
-        app(BinnacleController::class)->store("Insert", "Registro de nuevo tipo de propiedad.", auth()->user()->name);
+        $request->validate([
+            'tipo_inmueble' => 'required'
+        ]);
+
+        if ($request->ajax()) {
+            $newData = new PropertyType();
+            $newData->tipo_inmueble = $request->tipo_inmueble;
+            $newData->cantidad = 0;
+            $newData->save();
+            app(BinnacleController::class)->store("Insert", "Registro de nuevo tipo de propiedad.", auth()->user()->name);
+            return response()->json();
+        }
     }
 
     public function show()
@@ -35,18 +47,39 @@ class PropertyTypeController extends Controller
         }
     }
 
-    public function edit(PropertyType $propertyType)
+    public function edit($id,PropertyType $propertyType)
     {
-        //
+        if (request()->ajax()) {
+            $data = PropertyType::findOrFail($id);
+            return response()->json($data);
+        }
     }
 
     public function update(Request $request, PropertyType $propertyType)
     {
-        app(BinnacleController::class)->store("Update", "Actualizacion de tipo de propiedad.", auth()->user()->name);
+        $request->validate([
+            'tipo_inmueble' => 'required',
+            'cantidad' => 'required|integer'
+        ]);
+
+        if (request()->ajax()) {
+            $data = request()->except('_token');
+            $array = ([
+                'tipo_inmueble' => $data['tipo_inmueble'],
+                'cantidad' => $data['cantidad'],
+            ]);
+            PropertyType::where('id', '=', $request->id)->update($array);
+            app(BinnacleController::class)->store("Update", "Actualizacion de tipo de propiedad.", auth()->user()->name);
+            return response()->json($data);
+        }
     }
 
-    public function destroy(PropertyType $propertyType)
+    public function destroy($id,PropertyType $propertyType)
     {
-        app(BinnacleController::class)->store("Delete", "Eliminación de tipo de propiedad.", auth()->user()->name);
+        if (request()->ajax()) {
+            PropertyType::destroy($id);
+            app(BinnacleController::class)->store("Delete", "Eliminación de tipo de propiedad.", auth()->user()->name);
+            return response()->json();
+        }
     }
 }
