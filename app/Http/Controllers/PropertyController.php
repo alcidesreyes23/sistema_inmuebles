@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class PropertyController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +18,12 @@ class PropertyController extends Controller
      */
     public function index()
     {
-        //
+        return view("properties.index");
+    }
+
+    public function propiedades()
+    {
+        return view("properties.index");
     }
 
     /**

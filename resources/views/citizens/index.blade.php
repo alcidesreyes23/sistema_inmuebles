@@ -64,6 +64,7 @@
               </div>
             <div class="col-12 mt-1 text-center card-footer bg-transparent border-primary">
               <button class="btn btn-primary mt-2  btn-md" id="btnGuardar">Agregar</button>
+              <a href="{{route('properties.index')}}" class="btn btn-primary mt-2  btn-md" id="btnPropiedad">Asignar Propiedad</a>
             </div>
       </form>
       </div>
@@ -279,6 +280,7 @@
                   <i class="icon-trash"></i>
                 </a>
                 </td>`;
+
             }
             html += "</tr></tbody></table>"
             $("#categorie-table").html(html);

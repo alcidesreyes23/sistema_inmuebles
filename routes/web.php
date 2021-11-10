@@ -3,11 +3,11 @@
 use App\Http\Controllers\BinnacleController;
 use App\Http\Controllers\CitizenController;
 use App\Http\Controllers\PersonaController;
-use App\Http\Controllers\PropertyTypeController;
 use App\Http\Controllers\ResidenceAreaController;
 use App\Http\Controllers\SuburbController;
 use App\Http\Controllers\TaxTypeController;
 use App\Http\Controllers\TaxController;
+use App\Http\Controllers\PropertyController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -123,3 +123,7 @@ Route::put('/property-type/update', [PropertyTypeController::class, 'update'])->
 Route::get('/binnacle', [BinnacleController::class, 'index'])->name('binnacle.index')->middleware('auth');
 Route::get('/binnacle/show', [BinnacleController::class, 'show']);
 
+/***************INMUEBLES CRUD ADMIN-JEFE-AUXILIAR**********************/
+/************************************************************************/
+
+Route::get('/properties',[PropertyController::class,'index'])->name('properties.index');
