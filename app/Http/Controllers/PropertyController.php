@@ -27,7 +27,10 @@ class PropertyController extends Controller
 
     public function detalles($id)
     {
-        return view('properties.detalle',compact('id'));
+        $colonias = Suburb::all();
+        $tipos = PropertyType::all();
+        $zonas = ResidenceArea::all();
+        return View('properties.detalle',compact('id','colonias','tipos','zonas'));
     }
 
 
