@@ -95,11 +95,19 @@
                     @endif
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="{{ route('properties.index') }}">
                             <i class="icon-grid menu-icon"></i>
-                            <span class="menu-title">Propiedades</span>
+                            <span class="menu-title">Gestion de inmuebles</span>
                         </a>
                     </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('citizens.index') }}">
+                            <i class="icon-grid menu-icon"></i>
+                            <span class="menu-title">Gestion de ciudadanos</span>
+                        </a>
+                    </li>
+
                     @if (auth()->user()->rol == 'Admin')
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false"

@@ -22,7 +22,8 @@ class PropertyController extends Controller
      */
     public function index()
     {
-        return view("properties.index");
+        $data = Citizen::where('posee_inmueble','=','Si')->select('*')->get();
+        return view("properties.index",compact('data'));
     }
 
     public function detalles($id)
