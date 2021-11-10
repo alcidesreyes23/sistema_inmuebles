@@ -7,79 +7,67 @@ use Illuminate\Http\Request;
 
 class TaxTypeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function __construct()
     {
-        //
+        $this->middleware('auth');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function index()
+    {
+        return view('tax-types.index');
+    }
+
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        if ($request->ajax()) {
+            $newData = new TaxType();
+            $newData->tipo_tributo = $request->tipo_tributo;
+            $newData->save();
+            app(BinnacleController::class)->store("Insert", "Registro de nuevo tipo de tributo.", auth()->user()->name);
+            return response()->json();
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\TaxType  $taxType
-     * @return \Illuminate\Http\Response
-     */
-    public function show(TaxType $taxType)
+    public function show()
     {
-        //
+        if (request()->ajax()) {
+            $data = TaxType::all();
+            return response()->json($data);
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\TaxType  $taxType
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(TaxType $taxType)
+    public function edit($id, TaxType $taxType)
     {
-        //
+        if (request()->ajax()) {
+            $data = TaxType::findOrFail($id);
+            return response()->json($data);
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\TaxType  $taxType
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, TaxType $taxType)
     {
-        //
+        if (request()->ajax()) {
+            $data = request()->except('_token');
+            $array = ([
+                'tipo_tributo' => $data['tipo_tributo']
+            ]);
+            TaxType::where('id', '=', $request->id)->update($array);
+            app(BinnacleController::class)->store("Update", "Actualizacion de tipo de tributo.", auth()->user()->name);
+            return response()->json($data);
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\TaxType  $taxType
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(TaxType $taxType)
+    public function destroy($id)
     {
-        //
+        if (request()->ajax()) {
+            TaxType::destroy($id);
+            app(BinnacleController::class)->store("Delete", "Eliminación de tipo de tributo.", auth()->user()->name);
+            return response()->json();
+        }
     }
 }

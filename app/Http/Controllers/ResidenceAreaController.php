@@ -7,79 +7,46 @@ use Illuminate\Http\Request;
 
 class ResidenceAreaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        app(BinnacleController::class)->store("Insert", "Registro de nuevo area de residencia.", auth()->user()->name);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\ResidenceArea  $residenceArea
-     * @return \Illuminate\Http\Response
-     */
-    public function show(ResidenceArea $residenceArea)
+    public function show()
     {
-        //
+        if (request()->ajax()) {
+            $data = ResidenceArea::all();
+            return response()->json($data);
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\ResidenceArea  $residenceArea
-     * @return \Illuminate\Http\Response
-     */
     public function edit(ResidenceArea $residenceArea)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ResidenceArea  $residenceArea
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, ResidenceArea $residenceArea)
     {
-        //
+        app(BinnacleController::class)->store("Update", "Actualizacion de area de residencia.", auth()->user()->name);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\ResidenceArea  $residenceArea
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(ResidenceArea $residenceArea)
     {
-        //
+        app(BinnacleController::class)->store("Delete", "Eliminación de area de residencia.", auth()->user()->name);
     }
 }

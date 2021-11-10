@@ -1,7 +1,13 @@
 <?php
 
+use App\Http\Controllers\BinnacleController;
 use App\Http\Controllers\CitizenController;
 use App\Http\Controllers\PersonaController;
+use App\Http\Controllers\PropertyTypeController;
+use App\Http\Controllers\ResidenceAreaController;
+use App\Http\Controllers\SuburbController;
+use App\Http\Controllers\TaxTypeController;
+use App\Http\Controllers\TaxController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -60,3 +66,60 @@ Route::post('/citizens/store', [CitizenController::class, 'store'])->name('citiz
 Route::get('/citizens/delete/{id}', [CitizenController::class, 'destroy']);
 Route::get('/citizens/edit/{id}', [CitizenController::class, 'edit']);
 Route::put('/citizens/update', [CitizenController::class, 'update'])->name('citizens.update');
+
+/************************************************************************/
+/***************TAX TYPES CRUD ADMIN**********************/
+/************************************************************************/
+Route::get('/tax-types', [TaxTypeController::class, 'index'])->name('taxtypes.index')->middleware('auth');
+Route::get('/tax-types/show', [TaxTypeController::class, 'show']);
+Route::post('/tax-types/store', [TaxTypeController::class, 'store'])->name('taxtypes.store');
+Route::get('/tax-types/delete/{id}', [TaxTypeController::class, 'destroy']);
+Route::get('/tax-types/edit/{id}', [TaxTypeController::class, 'edit']);
+Route::put('/tax-types/update', [TaxTypeController::class, 'update'])->name('taxtypes.update');
+
+/************************************************************************/
+/***************TAX CRUD ADMIN**********************/
+/************************************************************************/
+Route::get('/tax', [TaxController::class, 'index'])->name('tax.index')->middleware('auth');
+Route::get('/tax/show', [TaxController::class, 'show']);
+Route::post('/tax/store', [TaxController::class, 'store'])->name('tax.store');
+Route::get('/tax/delete/{id}', [TaxController::class, 'destroy']);
+Route::get('/tax/edit/{id}', [TaxController::class, 'edit']);
+Route::put('/tax/update', [TaxController::class, 'update'])->name('tax.update');
+
+/************************************************************************/
+/***************SUBURB CRUD ADMIN**********************/
+/************************************************************************/
+Route::get('/suburb', [SuburbController::class, 'index'])->name('suburb.index')->middleware('auth');
+Route::get('/suburb/show', [SuburbController::class, 'show']);
+Route::post('/suburb/store', [SuburbController::class, 'store'])->name('suburb.store');
+Route::get('/suburb/delete/{id}', [SuburbController::class, 'destroy']);
+Route::get('/suburb/edit/{id}', [SuburbController::class, 'edit']);
+Route::put('/suburb/update', [SuburbController::class, 'update'])->name('suburb.update');
+
+/************************************************************************/
+/***************RESIDENCE AREA CRUD ADMIN**********************/
+/************************************************************************/
+Route::get('/residence-area', [ResidenceAreaController::class, 'index'])->name('residencearea.index')->middleware('auth');
+Route::get('/residence-area/show', [ResidenceAreaController::class, 'show']);
+Route::post('/residence-area/store', [ResidenceAreaController::class, 'store'])->name('residencearea.store');
+Route::get('/residence-area/delete/{id}', [ResidenceAreaController::class, 'destroy']);
+Route::get('/residence-area/edit/{id}', [ResidenceAreaController::class, 'edit']);
+Route::put('/residence-area/update', [ResidenceAreaController::class, 'update'])->name('residencearea.update');
+
+/************************************************************************/
+/***************PROPERTY TYPE CRUD ADMIN**********************/
+/************************************************************************/
+Route::get('/property-type', [PropertyTypeController::class, 'index'])->name('propertytype.index')->middleware('auth');
+Route::get('/property-type/show', [PropertyTypeController::class, 'show']);
+Route::post('/property-type/store', [PropertyTypeController::class, 'store'])->name('propertytype.store');
+Route::get('/property-type/delete/{id}', [PropertyTypeController::class, 'destroy']);
+Route::get('/property-type/edit/{id}', [PropertyTypeController::class, 'edit']);
+Route::put('/property-type/update', [PropertyTypeController::class, 'update'])->name('propertytype.update');
+
+/************************************************************************/
+/***************BINNACLE CRUD ADMIN**********************/
+/************************************************************************/
+Route::get('/binnacle', [BinnacleController::class, 'index'])->name('binnacle.index')->middleware('auth');
+Route::get('/binnacle/show', [BinnacleController::class, 'show']);
+

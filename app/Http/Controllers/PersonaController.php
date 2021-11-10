@@ -31,24 +31,18 @@ class PersonaController extends Controller
 
     public function store(Request $request)
     {
- 
+
         if ($request->ajax()) {
 
-            
+
             $newData = new User();
-            $newData->name = $request->name;  
+            $newData->name = $request->name;
             $newData->email = $request->email;
             $newData->password = Hash::make($request->password);
             $newData->rol = $request->rol;
 
             $newData->save();
-
-            $log = new Binnacle();
-            $log->titulo = "Insert";
-            $log->descripcion = "Registro de nuevo usuario";
-            $log->username = auth()->user()->name;
-            $log->save();
-
+            app(BinnacleController::class)->store("Insert", "Registro de nuevo usuario", auth()->user()->name);
             return response()->json();
         }
     }
@@ -64,33 +58,20 @@ class PersonaController extends Controller
             $log->descripcion = "Eliminación de Usuario";
             $log->username = auth()->user()->name;
             $log->save();
-
+            app(BinnacleController::class)->store("Delete", "Eliminación de Usuario", auth()->user()->name);
             return response()->json();
         }
     }
 
-     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\User  $categorie
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id, Request $request)
     {
-         //obtener los datos
-         if (request()->ajax()) {
+        //obtener los datos
+        if (request()->ajax()) {
             $data = User::findOrFail($id);
             return response()->json($data);
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $categorie
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, User $user)
     {
         if (request()->ajax()) {
@@ -101,17 +82,8 @@ class PersonaController extends Controller
                 'rol' => $data['rol'],
             ]);
             User::where('id', '=', $request->id)->update($array);
-
-            $log = new Binnacle();
-            $log->titulo = "Update";
-            $log->descripcion = "Actualizacion de Usuario";
-            $log->username = auth()->user()->name;
-            $log->save();
-
-
+            app(BinnacleController::class)->store("Update", "Actualizacion de Usuario", auth()->user()->name);
             return response()->json($data);
-            
         }
-
     }
 }
