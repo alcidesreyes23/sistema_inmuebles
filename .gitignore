@@ -13,3 +13,10 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
+app/Models/Length.php
+app/Http/Controllers/LengthController.php
+app/Http/Controllers/LengthController.php
+database/migrations/2021_11_09_011748_create_lengths_table.php
+app/Http/Controllers/LengthController.php
+database/migrations/2021_11_09_011748_create_lengths_table.php
+app/Http/Controllers/LengthController.php

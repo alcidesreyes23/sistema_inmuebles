@@ -21,9 +21,35 @@ class PropertyController extends Controller
         return view("properties.index");
     }
 
-    public function propiedades()
+    public function detalles($id)
     {
-        return view("properties.index");
+        return 'Hola Detalles';
+    }
+
+
+    public function cargarDetalle($id)
+    {
+        //listado
+        //$data = Persona::orderBy('id', 'DESC')->get();
+        /*
+            select s.colonia, pt.tipo_inmueble, l.total, ra.zona, p.pasaje, p.calle
+            from properties p
+            INNER JOIN suburbs s on s.id = p.colonia_id
+            INNER JOIN property_types pt on pt.id = p.tipo_inmueble_id
+            INNER JOIN lengths l on l.id = p.longitud_id
+            INNER JOIN residence_areas ra on ra.id = p.zona_residencia_id
+            where p.ciudadano_id = 1
+        */
+        if (request()->ajax()) {
+            $data = Property::where("ciudadano_id","=",$id)
+            ->select('suburbs.colonia','property_types.tipo_inmueble','residence_areas.zona','properties.pasaje','properties.calle')
+                        ->join('suburbs','suburbs.id','=','properties.colonia_id')
+                        ->join('property_types','property_types.id','=','properties.tipo_inmueble_id')
+                        ->join('residence_areas','residence_areas.id','=','properties.zona_residencia_id')
+                    ->get();
+
+            return response()->json($data);
+        }
     }
 
     /**

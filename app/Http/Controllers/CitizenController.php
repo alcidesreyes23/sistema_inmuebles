@@ -71,17 +71,8 @@ class CitizenController extends Controller
             $log->username = auth()->user()->name;
             $log->save();
 
-            if($request->posee_inmueble == 'Si')
-            {
-                return response()->redirectToRoute('properties.index');
-                
-            }
-            else
-            {
-                return response()->json();
-            }
 
-            
+            return response()->json();
         }
     }
 

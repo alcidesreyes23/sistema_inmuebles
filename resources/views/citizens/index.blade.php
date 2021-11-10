@@ -64,7 +64,6 @@
               </div>
             <div class="col-12 mt-1 text-center card-footer bg-transparent border-primary">
               <button class="btn btn-primary mt-2  btn-md" id="btnGuardar">Agregar</button>
-              <a href="{{route('properties.index')}}" class="btn btn-primary mt-2  btn-md" id="btnPropiedad">Asignar Propiedad</a>
             </div>
       </form>
       </div>
@@ -224,6 +223,7 @@
         e.preventDefault();
     });
 
+
     $(document).on("click", "#del", function (e) {
     let idEliminar = $(this).attr("value");
     Swal.fire({
@@ -279,7 +279,11 @@
                 <a href="#" id="del" value="${data[key]['id']}" class="btn  btn-danger text-white">
                   <i class="icon-trash"></i>
                 </a>
+                <a  href="#" id="addPro" value="${data[key]['id']}" class="btn  btn-infotext-white">
+                  Add P
+                </a>
                 </td>`;
+                ' <a  class="btn btn-primary mt-2  btn-md" id="btnPropiedad">Asignar Propiedad</a>'
 
             }
             html += "</tr></tbody></table>"

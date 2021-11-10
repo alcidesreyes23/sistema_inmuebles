@@ -13,10 +13,6 @@ class Property extends Model
         return $this->belongsTo('App\Models\Citizen');
     }
 
-    public function length() {
-        return $this->belongsTo('App\Models\Length');
-    }
-
     public function suburb() {
         return $this->belongsTo('App\Models\Suburb');
     }

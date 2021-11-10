@@ -127,3 +127,9 @@ Route::get('/binnacle/show', [BinnacleController::class, 'show']);
 /************************************************************************/
 
 Route::get('/properties',[PropertyController::class,'index'])->name('properties.index');
+Route::get('/properties/cargarDetalle', [PropertyController::class, 'cargarDetalle']);
+Route::get('/properties/detalles/', [PropertyController::class, 'detalles'])->name('properties.index2');
+//Route::get('/personas/delete/{id}', [PersonaController::class, 'destroy']);
+
+
+
