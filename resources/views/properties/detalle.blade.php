@@ -1,6 +1,18 @@
 @extends('layouts.plantilla')
 
-@section('title', 'Registro Ciudadanos')
+@section('title', 'Registro Inmuebles')
+
+@section('css')
+    <style>
+        /*para alinear los botones y cuadro de busqueda*/
+        .btn-group,
+        .btn-group-vertical {
+            position: absolute !important;
+        }
+
+    </style>
+
+@endsection
 
 @section('content')
     <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -29,10 +41,12 @@
                         <div class="col-12 col-sm-6 col-md-6 my-2">
                             <p class="text-muted text-gray">Ancho</p>
                             <input class="form-control" type="text" id="ancho" name="ancho" placeholder="Ancho en Metros">
+                            <small id="anchoV" class="text-danger"></small>
                         </div>
                         <div class="col-12 col-sm-6 col-md-6 my-2">
                             <p class="text-muted text-gray">Largo</p>
                             <input class="form-control" type="text" id="largo" name="largo" placeholder="Largo en Metros">
+                            <small id="largoV" class="text-danger"></small>
                         </div>
                         <div class="col-12 col-sm-6 col-md-6 my-2">
                             <p class="text-muted text-gray">Colonia</p>
@@ -41,8 +55,8 @@
                                 @foreach ($colonias as $item)
                                     <option value="{{ $item->id }}">{{ $item->colonia }}</option>
                                 @endforeach
-
                             </select>
+                            <small id="coloniaV" class="text-danger"></small>
                         </div>
                         <div class="col-12 col-sm-6 col-md-6 my-2">
                             <p class="text-muted text-gray">Tipo Inmueble</p>
@@ -52,20 +66,23 @@
                                     <option value="{{ $item->id }}">{{ $item->tipo_inmueble }}</option>
                                 @endforeach
                             </select>
+                            <small id="tipoV" class="text-danger"></small>
                         </div>
                         <div class="col-12 col-sm-6 col-md-6 my-2">
                             <p class="text-muted text-gray">Calle</p>
                             <input class="form-control" type="text" id="calle" name="calle" placeholder="Calle">
+                            <small id="calleV" class="text-danger"></small>
                         </div>
                         <div class="col-12 col-sm-6 col-md-6 my-2">
                             <p class="text-muted text-gray">Pasaje</p>
-                            <input class="form-control" type="text" id="pasaje" name="pasaje"
-                                placeholder="Pasaje">
+                            <input class="form-control" type="text" id="pasaje" name="pasaje" placeholder="Pasaje">
+                            <small id="pasajeV" class="text-danger"></small>
                         </div>
                         <div class="col-12 col-sm-6 col-md-6 my-2">
                             <p class="text-muted text-gray"># Propiedad</p>
-                            <input class="form-control" type="text" id="txtNum" name="num"
+                            <input class="form-control" type="text" id="numPro" name="numero_inmueble"
                                 placeholder="Número de Propiedad">
+                            <small id="numV" class="text-danger"></small>
                         </div>
                         <div class="col-12 mt-1 text-center card-footer bg-transparent border-primary">
                             <button class="btn btn-primary mt-2  btn-md" id="btnGuardar">Agregar</button>
@@ -95,45 +112,29 @@
                                 <p class="text-muted text-gray">Ancho</p>
                                 <input class="form-control" type="text" id="txtAncho" name="ancho"
                                     placeholder="Ancho en Metros">
+                                    <small id="anchoV2" class="text-danger"></small>
                             </div>
                             <div class="col-12 col-sm-6 col-md-6 my-2">
                                 <p class="text-muted text-gray">Largo</p>
                                 <input class="form-control" type="text" id="txtLargo" name="largo"
                                     placeholder="Largo en Metros">
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-6 my-2">
-                                <p class="text-muted text-gray">Colonia</p>
-                                <select name="colonia" id="sColonia"
-                                    class="form-control rounded-md shadow-sm mt-1 block w-full">
-                                    <option value="" selected>-- Colonias --</option>
-                                    @foreach ($colonias as $item)
-                                        <option value="{{ $item->id }}">{{ $item->colonia }}</option>
-                                    @endforeach
-
-                                </select>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-6 my-2">
-                                <p class="text-muted text-gray">Tipo Inmueble</p>
-                                <select name="tipo" id="sTipo" class="form-control rounded-md shadow-sm mt-1 block w-full">
-                                    <option value="" selected>-- Tipo --</option>
-                                    @foreach ($tipos as $item)
-                                        <option value="{{ $item->id }}">{{ $item->tipo_inmueble }}</option>
-                                    @endforeach
-                                </select>
+                                <small id="largoV2" class="text-danger"></small>
                             </div>
                             <div class="col-12 col-sm-6 col-md-6 my-2">
                                 <p class="text-muted text-gray">Calle</p>
                                 <input class="form-control" type="text" id="txtCalle" name="calle" placeholder="Calle">
+                                <small id="calleV2" class="text-danger"></small>
                             </div>
                             <div class="col-12 col-sm-6 col-md-6 my-2">
                                 <p class="text-muted text-gray">Pasaje</p>
-                                <input class="form-control" type="text" id="txtPasaje" name="pasaje"
-                                    placeholder="Pasaje">
+                                <input class="form-control" type="text" id="txtPasaje" name="pasaje" placeholder="Pasaje">
+                                <small id="pasajeV2" class="text-danger"></small>
                             </div>
                             <div class="col-12 col-sm-6 col-md-6 my-2">
                                 <p class="text-muted text-gray"># Propiedad</p>
-                                <input class="form-control" type="text" id="txtNum" name="num"
+                                <input class="form-control" type="text" id="txtNum" name="numero_inmueble"
                                     placeholder="Número de Propiedad">
+                                <small id="numV2" class="text-danger"></small>
                             </div>
                     </form>
                 </div>
@@ -173,12 +174,28 @@
                     toastr.success(mensaje, 'Nuevo Registro', {
                         timeOut: 4000
                     });
+                    limpiar();
 
                     // Actualizamos los datos de la DataTable sin Inicializar
                     listado();
                 },
-                error: function() {
-                    console.log('ERROR')
+                error: function(res2) {
+                    const errors = res2.responseJSON.errors;
+                    (errors.colonia != undefined) ? $("#coloniaV").text(`*${errors.colonia}`): $(
+                        "#coloniaV").hide();
+                    (errors.tipo != undefined) ? $("#tipoV").text(`*${errors.tipo}`): $("#tipoV")
+                .hide();
+                    (errors.numero_inmueble != undefined) ? $("#numV").text(
+                        `*${errors.numero_inmueble}`): $("#numV").hide();
+                    (errors.ancho != undefined) ? $("#anchoV").text(`*${errors.ancho}`): $("#anchoV")
+                        .hide();
+                    (errors.largo != undefined) ? $("#largoV").text(`*${errors.largo}`): $("#largoV")
+                        .hide();
+                    (errors.pasaje != undefined) ? $("#pasajeV").text(`*${errors.pasaje}`): $(
+                        "#pasajeV").hide();
+                    (errors.calle != undefined) ? $("#calleV").text(`*${errors.calle}`): $("#calleV")
+                        .hide();
+
                 }
             })
         });
@@ -197,11 +214,22 @@
                         $("#exampleModal").modal("hide");
                         $("#miFormulario2")[0].reset();
                         listado();
+                        limpiar2();
                     }
 
                 },
-                error: function() {
-                    toastr.error("Error: Registro No Actualizado", "Operacion No Completada");
+                error: function(res2) {
+                    const errors = res2.responseJSON.errors;
+                    (errors.numero_inmueble != undefined) ? $("#numV2").text(
+                        `*${errors.numero_inmueble}`): $("#numV2").hide();
+                    (errors.ancho != undefined) ? $("#anchoV2").text(`*${errors.ancho}`): $("#anchoV2")
+                        .hide();
+                    (errors.largo != undefined) ? $("#largoV2").text(`*${errors.largo}`): $("#largoV2")
+                        .hide();
+                    (errors.pasaje != undefined) ? $("#pasajeV2").text(`*${errors.pasaje}`): $(
+                        "#pasajeV2").hide();
+                    (errors.calle != undefined) ? $("#calleV2").text(`*${errors.calle}`): $("#calleV2")
+                        .hide();
                 }
             })
 
@@ -221,6 +249,7 @@
                     $("#txtLargo").val(r['largo']);
                     $("#txtPasaje").val(r['pasaje']);
                     $("#txtCalle").val(r['calle']);
+                    $("#txtNum").val(r['numero_inmueble']);
                     var idColonia = r['colonia_id'];
                     var idTipo = r['tipo_inmueble_id'];
 
@@ -259,32 +288,64 @@
             e.preventDefault();
         });
 
-        function listado() {
-            idCiudadano = $("#idCiudadano").attr("value");
-            $.ajax({
-                type: "GET",
-                url: "/properties/cargarDetalle/" + idCiudadano,
-                dataType: "json",
-                success: function(data) {
-                    console.log(data);
-                    html = "<table class='table table-striped' id='tablafiltro' width='100%'><thead>";
-                    html +=
-                        "<tr><th scope='col'>ID</th><th scope='col'>COLONIA</th><th scope='col'>TIPO INMUEBLE</th>";
-                    html +=
-                        "<th scope='col'>CALLE</th><th scope='col'>PASAJE</th><th scope='col'>ANCHO</th><th scope='col'>LARGO</th><th scope='col'>AREA CUADRADA</th><th scope='col'>ACCIONES</th></tr></thead>";
-                    html += "<tbody>";
-                    //var tbody = "<tbody>";
-                    for (var key in data) {
-                        html += "<tr>";
-                        html += "<td>" + data[key]['id'] + "</td>";
-                        html += "<td>" + data[key]['colonia'] + "</td>";
-                        html += "<td>" + data[key]['tipo_inmueble'] + "</td>";
-                        html += "<td>" + data[key]['calle'] + "</td>";
-                        html += "<td>" + data[key]['pasaje'] + "</td>";
-                        html += "<td>" + data[key]['ancho'] + "</td>";
-                        html += "<td>" + data[key]['largo'] + "</td>";
-                        html += "<td>" + data[key]['total'] + "</td>";
-                        html += `<td>
+        function limpiar() {
+            $("#ancho").val('');
+            $("#largo").val('');
+            $("#colonia").val('');
+            $("#tipo").val('');
+            $("#calle").val('');
+            $("#pasaje").val('');
+            $("#numPro").val('');
+            $("#coloniaV").hide();
+            $("#tipoV").hide();
+            $("#numV").hide();
+            $("#anchoV").hide();
+            $("#largoV").hide();
+            $("#pasajeV").hide();
+            $("#calleV").hide();
+
+        }
+
+        function limpiar2() {
+
+            $("#numV2").hide();
+            $("#anchoV2").hide();
+            $("#largoV2").hide();
+            $("#pasajeV2").hide();
+            $("#calleV2").hide();
+
+        }
+    </script>
+
+    @if (auth()->user()->rol == 'Admin' || auth()->user()->rol == 'Jefe')
+        <script>
+            function listado() {
+                idCiudadano = $("#idCiudadano").attr("value");
+                $.ajax({
+                    type: "GET",
+                    url: "/properties/cargarDetalle/" + idCiudadano,
+                    dataType: "json",
+                    success: function(data) {
+                        console.log(data);
+                        html = "<table class='table table-striped' id='tablafiltro' width='100%'><thead>";
+                        html +=
+                            "<tr><th scope='col'>ID</th><th scope='col'>COLONIA</th><th scope='col'>TIPO INMUEBLE</th>";
+                        html +=
+                            "<th scope='col'>CALLE</th><th scope='col'>PASAJE</th><th scope='col'>ANCHO</th><th scope='col'>LARGO</th><th scope='col'>AREA CUADRADA</th><th scope='col'># PROPIEDAD</th><th scope='col'>ACCIONES</th></tr></thead>";
+                        html += "<tbody>";
+                        //var tbody = "<tbody>";
+                        for (var key in data) {
+                            html += "<tr>";
+                            html += "<td>" + data[key]['id'] + "</td>";
+                            html += "<td>" + data[key]['colonia'] + "</td>";
+                            html += "<td>" + data[key]['tipo_inmueble'] + "</td>";
+                            html += "<td>" + data[key]['calle'] + "</td>";
+                            html += "<td>" + data[key]['pasaje'] + "</td>";
+                            html += "<td>" + data[key]['ancho'] + "</td>";
+                            html += "<td>" + data[key]['largo'] + "</td>";
+                            html += "<td>" + data[key]['total'] + "</td>";
+                            html += "<td>" + data[key]['numero_inmueble'] + "</td>";
+                            html += `<td>
                 <a href="#" id="edit" value="${data[key]['id']}" class="btn  btn-warning text-white">
                     <i class="ti-pencil"></i>
                 </a>
@@ -292,18 +353,99 @@
                   <i class="icon-trash"></i>
                 </a>
                 </td>`;
-                    }
-                    html += "</tr></tbody></table>"
-                    $("#categorie-table").html(html);
-                    //tabla filtro
-                    $('#tablafiltro').DataTable({
-                        "language": {
-                            "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
                         }
-                    });
-                }
-            });
-        }
-    </script>
+                        html += "</tr></tbody></table>"
+                        $("#categorie-table").html(html);
+                        //tabla filtro
+                        $('#tablafiltro').DataTable({
+                            "language": {
+                                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                            },
+                            /*Reportes Data Table*/
+                            dom: 'Bfrtilp',
+                            buttons: [{
+                                    extend: 'excelHtml5',
+                                    text: '<i class="fas fa-file-excel"></i> ',
+                                    titleAttr: 'Exportar a Excel',
+                                    className: 'btn btn-sm btn-success',
+                                    exportOptions: {
+                                        columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                                    }
+                                },
+                                {
+                                    extend: 'pdfHtml5',
+                                    text: '<i class="fas fa-file-pdf"></i> ',
+                                    titleAttr: 'Exportar a PDF',
+                                    className: 'btn btn-sm btn-danger',
+                                    exportOptions: {
+                                        columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                                    }
+                                },
+                                {
+                                    extend: 'print',
+                                    text: '<i class="fa fa-print"></i> ',
+                                    titleAttr: 'Imprimir',
+                                    className: 'btn btn-sm btn-info',
+                                    exportOptions: {
+                                        columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                                    }
+                                },
+
+
+                            ],
+
+                            /*End Reportes Data Table*/
+                        });
+                    }
+                });
+            }
+        </script>
+    @else
+        <script>
+            function listado() {
+                idCiudadano = $("#idCiudadano").attr("value");
+                $.ajax({
+                    type: "GET",
+                    url: "/properties/cargarDetalle/" + idCiudadano,
+                    dataType: "json",
+                    success: function(data) {
+                        console.log(data);
+                        html = "<table class='table table-striped' id='tablafiltro' width='100%'><thead>";
+                        html +=
+                            "<tr><th scope='col'>ID</th><th scope='col'>COLONIA</th><th scope='col'>TIPO INMUEBLE</th>";
+                        html +=
+                            "<th scope='col'>CALLE</th><th scope='col'>PASAJE</th><th scope='col'>ANCHO</th><th scope='col'>LARGO</th><th scope='col'>AREA CUADRADA</th><th scope='col'># PROPIEDAD</th><th scope='col'>ACCIONES</th></tr></thead>";
+                        html += "<tbody>";
+                        //var tbody = "<tbody>";
+                        for (var key in data) {
+                            html += "<tr>";
+                            html += "<td>" + data[key]['id'] + "</td>";
+                            html += "<td>" + data[key]['colonia'] + "</td>";
+                            html += "<td>" + data[key]['tipo_inmueble'] + "</td>";
+                            html += "<td>" + data[key]['calle'] + "</td>";
+                            html += "<td>" + data[key]['pasaje'] + "</td>";
+                            html += "<td>" + data[key]['ancho'] + "</td>";
+                            html += "<td>" + data[key]['largo'] + "</td>";
+                            html += "<td>" + data[key]['total'] + "</td>";
+                            html += "<td>" + data[key]['numero_inmueble'] + "</td>";
+                            html += `<td>
+            <a href="#" id="edit" value="${data[key]['id']}" class="btn  btn-warning text-white">
+                <i class="ti-pencil"></i>
+            </a>
+            </td>`;
+                        }
+                        html += "</tr></tbody></table>"
+                        $("#categorie-table").html(html);
+                        //tabla filtro
+                        $('#tablafiltro').DataTable({
+                            "language": {
+                                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                            }
+                        });
+                    }
+                });
+            }
+        </script>
+    @endif
 
 @endsection

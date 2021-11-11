@@ -35,6 +35,17 @@ class CitizenController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'nombres' => 'required',
+            'apellidos' => 'required',
+            'genero' => 'required',
+            'edad' => 'required',
+            'fecha_nacimiento' => 'required',
+            'dui' => 'required|unique:citizens',
+            'nit' => 'required|unique:citizens',
+            'posee_inmueble' => 'required',
+        ]);
+
         Citizen::create($request->all());
         app(BinnacleController::class)->store("Insert", "Registro de nuevo Ciudadano", auth()->user()->name);
         if ($request->posee_inmueble == 'Si') {
@@ -60,6 +71,17 @@ class CitizenController extends Controller
 
     public function update(Request $request)
     {
+        $request->validate([
+            'nombres' => 'required',
+            'apellidos' => 'required',
+            'genero' => 'required',
+            'edad' => 'required',
+            'fecha_nacimiento' => 'required',
+            'dui' => 'required',
+            'nit' => 'required',
+            'posee_inmueble' => 'required',
+        ]);
+
         if (request()->ajax()) {
             $data = request()->except('_token');
             $array = ([

@@ -2,6 +2,17 @@
 
 @section('title', 'Subdivisiones de Tributos')
 
+@section('css')
+    <style>
+        /*para alinear los botones y cuadro de busqueda*/
+        .btn-group,
+        .btn-group-vertical {
+            position: absolute !important;
+        }
+
+    </style>
+
+@endsection
 @section('content')
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
@@ -49,7 +60,8 @@
                     <div class="row justify-content-center">
                         <div class="col-8 col-sm-8  mb-2">
                             <label class="form-label">Nombre de la categoria:</label>
-                            <input class="form-control" type="text" id="" name="nombre_subdivision" placeholder="Nombre...">
+                            <input class="form-control" type="text" id="" name="nombre_subdivision"
+                                placeholder="Nombre...">
                             <small id="sub" class="text-danger"></small>
                         </div>
                         <div class="col-8 col-sm-8  my-2">
@@ -89,7 +101,8 @@
                             <input type="hidden" id="id" name="id">
                             <div class="col-12 col-sm-12 col-md-6 my-2">
                                 <label class="form-label">Nombre de la categoria:</label>
-                                <input class="form-control" type="text" id="tributo" name="nombre_subdivision" placeholder="Nombre...">
+                                <input class="form-control" type="text" id="tributo" name="nombre_subdivision"
+                                    placeholder="Nombre...">
                                 <small id="suba" class="text-danger"></small>
                             </div>
                             <div class="col-12 col-sm-12 col-md-6 my-2">
@@ -126,7 +139,41 @@
             $('#tablafiltro').DataTable({
                 "language": {
                     "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
-                }
+                },
+                /*Reportes Data Table*/
+                dom: 'Bfrtilp',
+                buttons: [{
+                        extend: 'excelHtml5',
+                        text: '<i class="fas fa-file-excel"></i> ',
+                        titleAttr: 'Exportar a Excel',
+                        className: 'btn btn-sm btn-success',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3]
+                        }
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        text: '<i class="fas fa-file-pdf"></i> ',
+                        titleAttr: 'Exportar a PDF',
+                        className: 'btn btn-sm btn-danger',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3]
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        text: '<i class="fa fa-print"></i> ',
+                        titleAttr: 'Imprimir',
+                        className: 'btn btn-sm btn-info',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3]
+                        }
+                    },
+
+
+                ],
+
+                /*End Reportes Data Table*/
             });
             llenarCombo();
         });
@@ -154,9 +201,11 @@
                 error: function(res) {
                     const errors = res.responseJSON.errors;
                     console.log(errors);
-                    (errors.nombre_subdivision != undefined) ? $("#sub").text(`*${errors.nombre_subdivision}`): $("#sub").hide();
+                    (errors.nombre_subdivision != undefined) ? $("#sub").text(
+                        `*${errors.nombre_subdivision}`): $("#sub").hide();
                     (errors.costo != undefined) ? $("#cos").text(`*${errors.costo}`): $("#cos").hide();
-                    (errors.tributo_id != undefined) ? $("#cat").text(`*${errors.tributo_id}`): $("#cat").hide();
+                    (errors.tributo_id != undefined) ? $("#cat").text(`*${errors.tributo_id}`): $(
+                        "#cat").hide();
                 }
             })
         });
@@ -179,9 +228,12 @@
                 },
                 error: function(res) {
                     const errors = res.responseJSON.errors;
-                    (errors.nombre_subdivision != undefined) ? $("#suba").text(`*${errors.nombre_subdivision}`): $("#suba").hide();
-                    (errors.costo != undefined) ? $("#cosa").text(`*${errors.costo}`): $("#cosa").hide();
-                    (errors.tributo_id != undefined) ? $("#cata").text(`*${errors.tributo_id}`): $("#cata").hide();
+                    (errors.nombre_subdivision != undefined) ? $("#suba").text(
+                        `*${errors.nombre_subdivision}`): $("#suba").hide();
+                    (errors.costo != undefined) ? $("#cosa").text(`*${errors.costo}`): $("#cosa")
+                .hide();
+                    (errors.tributo_id != undefined) ? $("#cata").text(`*${errors.tributo_id}`): $(
+                        "#cata").hide();
                     toastr.error("Error: Registro NO Actualizado", "Operacion No Completada");
                 }
             })
@@ -239,7 +291,8 @@
                 dataType: "json",
                 success: function(data) {
                     for (var key in data) {
-                        $("#taxtype").append('<option value=' + data[key]['id'] + '>' + data[key]['tributo'] + '</option>');
+                        $("#taxtype").append('<option value=' + data[key]['id'] + '>' + data[key][
+                            'tributo'] + '</option>');
                     }
                 }
             });
@@ -252,7 +305,8 @@
                 dataType: "json",
                 success: function(data) {
                     for (var key in data) {
-                        $("#taxtype2").append('<option value=' + data[key]['id'] + '>' + data[key]['tributo'] + '</option>');
+                        $("#taxtype2").append('<option value=' + data[key]['id'] + '>' + data[key][
+                            'tributo'] + '</option>');
                     }
                 }
             });

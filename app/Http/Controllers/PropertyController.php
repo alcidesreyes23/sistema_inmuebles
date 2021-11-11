@@ -35,7 +35,7 @@ class PropertyController extends Controller
     {
         if (request()->ajax()) {
             $data = Property::where("ciudadano_id","=",$id)
-            ->select('properties.id','suburbs.id as idColonia','suburbs.colonia','property_types.tipo_inmueble','properties.pasaje','properties.calle','properties.ancho','properties.largo','properties.total')
+            ->select('properties.id','suburbs.id as idColonia','suburbs.colonia','property_types.tipo_inmueble','properties.pasaje','properties.calle','properties.ancho','properties.largo','properties.total','properties.numero_inmueble')
                         ->join('suburbs','suburbs.id','=','properties.colonia_id')
                         ->join('property_types','property_types.id','=','properties.tipo_inmueble_id')
                     ->get();
@@ -51,13 +51,23 @@ class PropertyController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'colonia' => 'required',
+            'tipo' => 'required',
+            'numero_inmueble' => 'required|numeric',
+            'ancho' => 'required|numeric',
+            'largo' => 'required|numeric',
+            'pasaje' => 'required',
+            'calle' => 'required'
+        ]);
+
         if ($request->ajax()) {
 
             $newData = new Property();
             $newData->ciudadano_id = $request->idCiudadano;
             $newData->colonia_id = $request->colonia;
             $newData->tipo_inmueble_id = $request->tipo;
-            $newData->numero_inmueble = $request->num;
+            $newData->numero_inmueble = $request->numero_inmueble;
             $newData->ancho = $request->ancho;
             $newData->largo = $request->largo;
             $newData->total = $request->ancho * $request->largo;
@@ -65,6 +75,13 @@ class PropertyController extends Controller
             $newData->calle = $request->calle;
 
             $newData->save();
+
+
+            /*Actulizando valor contado de Colonias y Tipos de Propiedades*/
+            Suburb::where('id', $request->colonia)->increment('cantidad', 1);
+            PropertyType::where('id', $request->tipo)->increment('cantidad', 1);
+
+            
             /*Actualizando el campo para aquellos ciudadanos que no tenian propiedad en un Inicio*/
             Citizen::where('id', $request->idCiudadano)->update(array('posee_inmueble' => 'Si'));
 
@@ -89,13 +106,18 @@ class PropertyController extends Controller
 
     public function update(Request $request)
     {
+        $request->validate([
+            'numero_inmueble' => 'required|numeric',
+            'ancho' => 'required|numeric',
+            'largo' => 'required|numeric',
+            'pasaje' => 'required',
+            'calle' => 'required'
+        ]);
         if (request()->ajax()) {
             $data = request()->except('_token');
             $array = ([
                 'ciudadano_id' => $data['idCiudadano'],
-                'colonia_id' => $data['colonia'],
-                'tipo_inmueble_id' => $data['tipo'],
-                'numero_inmueble' => $data['num'],
+                'numero_inmueble' => $data['numero_inmueble'],
                 'ancho' => $data['ancho'],
                 'largo' => $data['largo'],
                 'total' => $data['ancho'] * $data['largo'],

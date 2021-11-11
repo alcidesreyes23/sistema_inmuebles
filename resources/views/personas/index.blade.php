@@ -38,17 +38,17 @@
                     <div class="row justify-content-center">
                         <div class="col-12 col-sm-12 col-md-6 my-2">
                             <p class="text-muted text-gray">Nombre de Usuario</p>
-                            <input class="form-control" type="text" id="txtId" name="name" placeholder="Nombre">
+                            <input class="form-control" type="text" id="txtUser" name="name" placeholder="Nombre">
                             <small id="nombreV" class="text-danger"></small>
                         </div>
                         <div class="col-12 col-sm-12 col-md-6 my-2">
                             <p class="text-muted text-gray">Email</p>
-                            <input class="form-control" type="email" id="txtId" name="email" placeholder="Email">
+                            <input class="form-control" type="email" id="txtEmail" name="email" placeholder="Email">
                             <small id="emailV" class="text-danger"></small>
                         </div>
                         <div class="col-12 col-sm-12 col-md-6 my-2">
                             <p class="text-muted text-gray">Password</p>
-                            <input class="form-control" type="password" id="txtId" name="password" placeholder="Password">
+                            <input class="form-control" type="password" id="txPass" name="password" placeholder="Password">
                             <small id="passV" class="text-danger"></small>
                         </div>
                         <div class="col-12 col-sm-12 col-md-6 my-2">
@@ -56,7 +56,7 @@
                             <select name="rol" id="sRol" class="form-control rounded-md shadow-sm mt-1 block w-full">
                                 <option value="" selected>-- Rol --</option>
                                 <option value="Admin">Admin</option>
-                                <option value="Castro">Castro</option>
+                                <option value="Jefe">Jefe</option>
                                 <option value="Auxiliar">Auxiliar</option>
                             </select>
                             <small id="rolV" class="text-danger"></small>
@@ -123,6 +123,25 @@
             listado();
         });
 
+        function limpiar() {
+            $("#nombreV").hide();
+            $("#emailV").hide();
+            $("#passV").hide();
+            $("#rolV").hide();
+
+            $("#nombreV2").hide();
+            $("#emailV2").hide();
+
+            $("#txtUser").val('');
+            $("#txtEmail").val('');
+            $("#txtPass").val('');
+
+            $("#name").val('');
+            $("#email").val('');
+            $("#txPass").val('');
+        }
+
+
         $("#btnGuardar").click(function(e) {
             e.preventDefault()
             var form = $("#miFormulario")
@@ -144,6 +163,7 @@
 
                     // Actualizamos los datos de la DataTable sin Inicializar
                     listado();
+                    limpiar();
                 },
                 error: function(res2) {
                     const errors = res2.responseJSON.errors;
@@ -170,10 +190,16 @@
                         $("#exampleModal").modal("hide");
                         $("#miFormulario2")[0].reset();
                         listado();
+                        limpiar();
                     }
 
                 },
-                error: function(res) {
+                error: function(res3) {
+
+                    const errors = res3.responseJSON.errors;
+                    (errors.name != undefined) ? $("#nombreV2").text(`*${errors.name}`): $("#nombreV2").hide();
+                    (errors.email != undefined) ? $("#emailV2").text(`*${errors.email}`): $("#emailV2").hide();
+                    (errors.rol != undefined) ? $("#rolV2").text(`*${errors.rol}`): $("#rolV2").hide();
                     
                 }
             })
@@ -265,7 +291,10 @@
                                 extend: 'excelHtml5',
                                 text: '<i class="fas fa-file-excel"></i> ',
                                 titleAttr: 'Exportar a Excel',
-                                className: 'btn btn-sm btn-success'
+                                className: 'btn btn-sm btn-success',
+                                exportOptions: {
+                                    columns: [0, 1, 2, 3]
+                                }
                             },
                             {
                                 extend: 'pdfHtml5',
@@ -280,7 +309,10 @@
                                 extend: 'print',
                                 text: '<i class="fa fa-print"></i> ',
                                 titleAttr: 'Imprimir',
-                                className: 'btn btn-sm btn-info'
+                                className: 'btn btn-sm btn-info',
+                                exportOptions: {
+                                    columns: [0, 1, 2, 3]
+                                }
                             },
 
 

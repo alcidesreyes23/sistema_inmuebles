@@ -77,6 +77,11 @@ class PersonaController extends Controller
 
     public function update(Request $request, User $user)
     {
+        $request->validate([
+            'name' => 'required|max:15',
+            'email' => 'required',
+            'rol' => 'required'
+        ]);
         if (request()->ajax()) {
             $data = request()->except('_token');
             $array = ([
