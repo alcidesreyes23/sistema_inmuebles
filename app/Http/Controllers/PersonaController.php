@@ -21,8 +21,7 @@ class PersonaController extends Controller
 
     public function cargarDatos()
     {
-        //listado
-        //$data = Persona::orderBy('id', 'DESC')->get();
+
         if (request()->ajax()) {
             $data = User::all();
             return response()->json($data);
@@ -31,10 +30,14 @@ class PersonaController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required|unique:users|max:15',
+            'email' => 'required|unique:users|email',
+            'password' => 'required|min:8',
+            'rol' => 'required'
+        ]);
 
         if ($request->ajax()) {
-
-
             $newData = new User();
             $newData->name = $request->name;
             $newData->email = $request->email;
