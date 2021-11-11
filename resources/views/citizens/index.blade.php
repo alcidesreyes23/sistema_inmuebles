@@ -54,12 +54,12 @@
                         </div>
                         <div class="col-12 col-sm-12 col-md-6 my-2">
                             <p class="text-muted text-gray">Número de Dui</p>
-                            <input class="form-control" type="text" id="txtId" name="dui" placeholder="DUI"
+                            <input class="form-control" type="text" id="txtDui" name="dui" placeholder="DUI"
                                 data-validetta="required">
                         </div>
                         <div class="col-12 col-sm-12 col-md-6 my-2">
                             <p class="text-muted text-gray">Número de Nit</p>
-                            <input class="form-control" type="text" id="txtId" name="nit" placeholder="NIT"
+                            <input class="form-control" type="text" id="txtNit" name="nit" placeholder="NIT"
                                 data-validetta="required">
                         </div>
                         <div class="col-12 col-sm-12 col-md-6 my-2">
@@ -282,6 +282,35 @@
                 }
             });
         }
+        var duiMask = IMask(
+            document.getElementById('txtDui'),
+            {
+                mask: '00000000-0',
+                lazy: true  // make placeholder always visible              
+            }
+          );
+          var duiMask = IMask(
+            document.getElementById('txtNit'),
+            {
+                mask: '0000-000000-000-0',
+                lazy: true  // make placeholder always visible              
+            }
+          );
+          var duiMask = IMask(
+            document.getElementById('dui'),
+            {
+                mask: '00000000-0',
+                lazy: true  // make placeholder always visible              
+            }
+          );
+          var duiMask = IMask(
+            document.getElementById('nit'),
+            {
+                mask: '0000-000000-000-0',
+                lazy: true  // make placeholder always visible              
+            }
+          );
+          
     </script>
 
 @endsection

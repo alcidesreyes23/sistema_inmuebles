@@ -2,6 +2,15 @@
 
 @section('title', 'Tributos')
 
+@section('css')
+<style>
+    /*para alinear los botones y cuadro de busqueda*/
+    .btn-group, .btn-group-vertical {
+        position: absolute !important;
+}
+</style>
+   
+
 @section('content')
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
@@ -89,7 +98,8 @@
                             <input type="hidden" id="id" name="id">
                             <div class="col-12 col-sm-12 col-md-6 my-2">
                                 <label class="form-label">Nombre del tributo:</label>
-                                <input class="form-control" type="text" id="tributo" name="tributo" placeholder="Nombre...">
+                                <input class="form-control" type="text" id="tributo" name="tributo"
+                                    placeholder="Nombre...">
                                 <small id="tria" class="text-danger"></small>
                             </div>
                             <div class="col-12 col-sm-12 col-md-6 my-2">
@@ -126,8 +136,37 @@
             $('#tablafiltro').DataTable({
                 "language": {
                     "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
-                }
+                },
+                /*Reportes Data Table*/
+                dom: 'Bfrtilp',
+                buttons: [{
+                        extend: 'excelHtml5',
+                        text: '<i class="fas fa-file-excel"></i> ',
+                        titleAttr: 'Exportar a Excel',
+                        className: 'btn btn-sm btn-success'
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        text: '<i class="fas fa-file-pdf"></i> ',
+                        titleAttr: 'Exportar a PDF',
+                        className: 'btn btn-sm btn-danger',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3]
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        text: '<i class="fa fa-print"></i> ',
+                        titleAttr: 'Imprimir',
+                        className: 'btn btn-sm btn-info'
+                    },
+
+                ],
+
+                /*End Reportes Data Table*/
             });
+
+
             llenarCombo();
         });
 
@@ -153,9 +192,11 @@
                 },
                 error: function(res) {
                     const errors = res.responseJSON.errors;
-                    (errors.tributo != undefined) ? $("#tri").text(`*${errors.tributo}`): $("#tri").hide();
+                    (errors.tributo != undefined) ? $("#tri").text(`*${errors.tributo}`): $("#tri")
+                        .hide();
                     (errors.costo != undefined) ? $("#cos").text(`*${errors.costo}`): $("#cos").hide();
-                    (errors.taxtype_id != undefined) ? $("#cat").text(`*${errors.taxtype_id}`): $("#cat").hide();
+                    (errors.taxtype_id != undefined) ? $("#cat").text(`*${errors.taxtype_id}`): $(
+                        "#cat").hide();
                 }
             })
         });
@@ -178,9 +219,12 @@
                 },
                 error: function(res) {
                     const errors = res.responseJSON.errors;
-                    (errors.tributo != undefined) ? $("#tria").text(`*${errors.tributo}`): $("#tria").hide();
-                    (errors.costo != undefined) ? $("#cosa").text(`*${errors.costo}`): $("#cosa").hide();
-                    (errors.taxtype_id != undefined) ? $("#cata").text(`*${errors.taxtype_id}`): $("#cata").hide();
+                    (errors.tributo != undefined) ? $("#tria").text(`*${errors.tributo}`): $("#tria")
+                        .hide();
+                    (errors.costo != undefined) ? $("#cosa").text(`*${errors.costo}`): $("#cosa")
+                        .hide();
+                    (errors.taxtype_id != undefined) ? $("#cata").text(`*${errors.taxtype_id}`): $(
+                        "#cata").hide();
                     toastr.error("Error: Registro NO Actualizado", "Operacion No Completada");
                 }
             })
