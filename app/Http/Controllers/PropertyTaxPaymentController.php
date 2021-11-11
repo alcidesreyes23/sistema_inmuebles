@@ -11,15 +11,10 @@ class PropertyTaxPaymentController extends Controller
     {
         $this->middleware('auth');
     }
-    
-    public function factura($id)
-    {
-        return View('pagos.factura',compact('id'));
-    }
 
     public function index()
     {
-       
+       //
     }
 
     public function create()
@@ -27,9 +22,18 @@ class PropertyTaxPaymentController extends Controller
         //
     }
 
-    public function store(Request $request)
+    public function store($id,Request $request)
     {
-        app(BinnacleController::class)->store("Insert", "Registro de nuevo pago de tributos sobre la propiedad.", auth()->user()->name);
+        if ($request->ajax()) {
+            $fecha = $request->mes;
+            $newData = new PropertyTaxPayment();
+            $newData->pago_id = $id;
+            $newData->inmueble_id = $request->inmueble_id;
+            $newData->anio = date('Y',strtotime($fecha));
+            $newData->mes = date('m',strtotime($fecha));
+            $newData->save();
+            app(BinnacleController::class)->store("Insert", "Registro de nuevo pago de tributos sobre la propiedad.", auth()->user()->name);
+        }
     }
 
     public function show()

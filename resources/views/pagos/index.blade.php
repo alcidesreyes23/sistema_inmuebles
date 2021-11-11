@@ -32,6 +32,9 @@
                         <a href="{{route('pagos.factura',$data->id)}}" id="enviar" class="btn  btn-success text-white">
                             <i class="ti-money"></i>
                         </a>
+                        <a href="{{route('pagos.detalle',$data->id)}}" id="enviar" class="btn  btn-success text-white">
+                            <i class="ti-eye"></i>
+                        </a>
                     </td>
                 </tr>
                 @endforeach

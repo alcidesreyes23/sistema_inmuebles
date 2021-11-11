@@ -15,11 +15,7 @@ class PropertyController extends Controller
     {
         $this->middleware('auth');
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         $data = Citizen::All();
@@ -48,32 +44,11 @@ class PropertyController extends Controller
         }
     }
 
-    public function propiedades()
-    {
-        $data = Property::select('properties.id as id','properties.numero_inmueble as num','properties.calle as calle',
-        'citizens.nombres as nombres','citizens.apellidos as apellidos','citizens.dui as dui','citizens.nit as nit')
-                ->join('citizens','citizens.id','=','properties.ciudadano_id')
-                ->get();
-
-        return view("pagos.index",compact('data'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         if ($request->ajax()) {
@@ -98,23 +73,11 @@ class PropertyController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Property  $property
-     * @return \Illuminate\Http\Response
-     */
     public function show(Property $property)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Property  $property
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id, Request $request)
     {
          //obtener los datos
@@ -124,13 +87,6 @@ class PropertyController extends Controller
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Property  $property
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request)
     {
         if (request()->ajax()) {

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BinnacleController;
 use App\Http\Controllers\CitizenController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PersonaController;
 use App\Http\Controllers\ResidenceAreaController;
 use App\Http\Controllers\SuburbController;
@@ -137,13 +138,19 @@ Route::get('/properties/edit/{id}', [PropertyController::class, 'edit']);
 Route::post('/properties/store', [PropertyController::class, 'store'])->name('properties.store');
 Route::put('/properties/update', [PropertyController::class, 'update'])->name('properties.update');
 Route::get('/properties/delete/{id}', [PropertyController::class, 'destroy']);
-Route::get('/pagos',[PropertyController::class,'propiedades'])->name('pagos.index');
 
 
 
 /***************   PAGOS DE TAXES**********************/
 /************************************************************************/
-Route::get('/pagos/factura/{id}',[PropertyTaxPaymentController::class,'factura'])->name('pagos.factura');
+Route::get('/payment',[PaymentController::class,'index'])->name('pagos.index');
+Route::get('/payment/bill/{id}',[PaymentController::class,'factura'])->name('pagos.factura');
+Route::post('/payment/store', [PaymentController::class, 'store'])->name('pagos.store');
+Route::get('/payment/get-sub/{id}',[PaymentController::class,'getSubT']);
+Route::post('/payment/calculate', [PaymentController::class, 'calculate']);
+Route::get('/payment/detalles/{id}',[PaymentController::class,'detalles'])->name('pagos.detalle');
+Route::get('/payment/cancelar-pago/{id}',[PaymentController::class,'edit'])->name('pagos.edit');
+Route::put('/payment/update', [PaymentController::class, 'update'])->name('pagos.update');
 
 /************************************************************************/
 /***************    SUBDIVISION TAX CRUD ADMIN**********************/
