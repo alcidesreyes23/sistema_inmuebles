@@ -13,7 +13,7 @@ class PropertyTaxPayment extends Model
         return $this->belongsTo('App\Models\Payment');
     }
 
-    public function property_tax() {
-        return $this->belongsTo('App\Models\PropertyTax');
+    public function property() {
+        return $this->belongsTo('App\Models\Property');
     }
 }

@@ -13,7 +13,11 @@ class Tax extends Model
         return $this->belongsTo('App\Models\TaxType');
     }
 
-    public function property_taxes() {
-        return $this->hasMany('App\Models\PropertyTax');
+    public function payments() {
+        return $this->hasMany('App\Models\Payment');
+    }
+
+    public function subdivision_taxes() {
+        return $this->hasMany('App\Models\SubdivisionTax');
     }
 }

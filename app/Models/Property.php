@@ -17,15 +17,11 @@ class Property extends Model
         return $this->belongsTo('App\Models\Suburb');
     }
 
-    public function residence_area() {
-        return $this->belongsTo('App\Models\ResidenceArea');
-    }
-
     public function property_type() {
         return $this->belongsTo('App\Models\PropertyType');
     }
 
-    public function property_taxes() {
-        return $this->hasMany('App\Models\PropertyTax');
+    public function property_tax_payment() {
+        return $this->hasMany('App\Models\PropertyTaxPayment');
     }
 }

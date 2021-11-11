@@ -5,11 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ResidenceArea extends Model
+class SubdivisionTax extends Model
 {
     use HasFactory;
+    protected $guarded = [];
 
-    public function properties(){
-        return $this->hasMany('App\Models\Property');
+    public function tax() {
+        return $this->belongsTo('App\Models\Tax');
     }
 }

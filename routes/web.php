@@ -10,7 +10,7 @@ use App\Http\Controllers\TaxController;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\PropertyTaxPaymentController;
 use App\Http\Controllers\PropertyTypeController;
-use App\Models\PropertyTaxPayment;
+use App\Http\Controllers\SubdivisionTaxController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -145,3 +145,12 @@ Route::get('/pagos',[PropertyController::class,'propiedades'])->name('pagos.inde
 /************************************************************************/
 Route::get('/pagos/factura/{id}',[PropertyTaxPaymentController::class,'factura'])->name('pagos.factura');
 
+/************************************************************************/
+/***************    SUBDIVISION TAX CRUD ADMIN**********************/
+/************************************************************************/
+Route::get('/subdivision-tax', [SubdivisionTaxController::class, 'index'])->name('subdivisiontax.index')->middleware('auth');
+Route::get('/subdivision-tax/show', [SubdivisionTaxController::class, 'show']);
+Route::post('/subdivision-tax/store', [SubdivisionTaxController::class, 'store'])->name('subdivisiontax.store');
+Route::get('/subdivision-tax/delete/{id}', [SubdivisionTaxController::class, 'destroy']);
+Route::get('/subdivision-tax/edit/{id}', [SubdivisionTaxController::class, 'edit']);
+Route::put('/subdivision-tax/update', [SubdivisionTaxController::class, 'update'])->name('subdivisiontax.update');

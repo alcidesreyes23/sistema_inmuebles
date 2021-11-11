@@ -1,16 +1,16 @@
 @extends('layouts.plantilla')
 
-@section('title', 'Zona de residencia')
+@section('title', 'Subdivisiones de Tributos')
 
 @section('content')
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
             <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
-                role="tab" aria-controls="home" aria-selected="true">Lista de areas de residencia</button>
+                role="tab" aria-controls="home" aria-selected="true">Lista de subdivisiones</button>
         </li>
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
-                role="tab" aria-controls="profile" aria-selected="false">Nueva area</button>
+                role="tab" aria-controls="profile" aria-selected="false">Nueva subdivision</button>
         </li>
     </ul>
     <div class="tab-content" id="myTabContent">
@@ -20,8 +20,9 @@
                     <thead>
                         <tr>
                             <th scope='col'>ID</th>
-                            <th scope='col'>ZONA DE RESIDENCIA</th>
-                            <th scope='col'>CANTIDAD INMUEBLES</th>
+                            <th scope='col'>SUBDIVISION</th>
+                            <th scope='col'>COSTO</th>
+                            <th scope='col'>TRIBUTO</th>
                             <th scope='col'>Acciones</th>
                         </tr>
                     </thead>
@@ -29,8 +30,9 @@
                         @foreach ($data as $data)
                             <tr>
                                 <td>{{ $data->id }}</td>
-                                <td>{{ $data->zona }}</td>
-                                <td>{{ $data->cantidad }}</td>
+                                <td>{{ $data->nombre_subdivision }}</td>
+                                <td>${{ number_format($data->costo, 2) }}</td>
+                                <td>{{ $data->tributo }}</td>
                                 <td><a href="#" id="edit" value="{{ $data->id }}" class="btn  btn-warning"> Editar </a>
                                     <a href="#" id="del" value="{{ $data->id }}" class="btn  btn-danger"> Eliminar </a>
                                 </td>
@@ -42,13 +44,26 @@
         </div>
         <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
             <div class="container p-5">
-                <form method="post" action="{{ route('residencearea.store') }}" id="miFormulario">
+                <form method="POST" action="{{ route('subdivisiontax.store') }}" id="miFormulario">
                     @csrf
                     <div class="row justify-content-center">
-                        <div class="col-12 col-sm-12 col-md-6 my-2">
-                            <label class="form-label">Ingrese el nombre del area de residencia:</label>
-                            <input class="form-control" type="text" id="" name="zona" placeholder="Nombre...">
-                            <small id="ar" class="text-danger"></small>
+                        <div class="col-8 col-sm-8  mb-2">
+                            <label class="form-label">Nombre de la categoria:</label>
+                            <input class="form-control" type="text" id="" name="nombre_subdivision" placeholder="Nombre...">
+                            <small id="sub" class="text-danger"></small>
+                        </div>
+                        <div class="col-8 col-sm-8  my-2">
+                            <label class="form-label">Costo de la categoria:</label>
+                            <input class="form-control" type="text" id="" name="costo" placeholder="Costo...">
+                            <small id="cos" class="text-danger"></small>
+                        </div>
+                        <div class="col-8 col-sm-8  my-2">
+                            <label class="form-label">Categoria de la categoria:</label>
+                            <select name="tributo_id" id="taxtype"
+                                class="form-control rounded-md shadow-sm mt-1 block w-full">
+                                <option value="" selected>-- Categoria --</option>
+                            </select>
+                            <small id="cat" class="text-danger"></small>
                         </div>
                         <div class="col-12 mt-1 text-center card-footer bg-transparent border-primary">
                             <button class="btn btn-primary mt-2  btn-md" id="btnGuardar">Agregar</button>
@@ -72,15 +87,22 @@
                             @method('PUT')
                             @csrf
                             <input type="hidden" id="id" name="id">
-                            <div class="col-12 col-sm-12 col-md-12 my-2">
-                                <label class="form-label">Nombre del area de residencia:</label>
-                                <input class="form-control" type="text" id="zona" name="zona" placeholder="Nombre...">
-                                <small id="raa" class="text-danger"></small>
+                            <div class="col-12 col-sm-12 col-md-6 my-2">
+                                <label class="form-label">Nombre de la categoria:</label>
+                                <input class="form-control" type="text" id="tributo" name="nombre_subdivision" placeholder="Nombre...">
+                                <small id="suba" class="text-danger"></small>
                             </div>
-                            <div class="col-12 col-sm-12 col-md-12 my-2">
-                                <label class="form-label">Cantidad inmuebles:</label>
-                                <input class="form-control" type="number" id="cantidad" name="cantidad" placeholder="Nombre...">
-                                <small id="cant" class="text-danger"></small>
+                            <div class="col-12 col-sm-12 col-md-6 my-2">
+                                <label class="form-label">Costo de la categoria:</label>
+                                <input class="form-control" type="text" id="costo" name="costo" placeholder="Costo...">
+                                <small id="cosa" class="text-danger"></small>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-6 my-2">
+                                <label class="form-label">Tributo de la categoria:</label>
+                                <select name="tributo_id" id="taxtype2"
+                                    class="form-control rounded-md shadow-sm mt-1 block w-full">
+                                </select>
+                                <small id="cata" class="text-danger"></small>
                             </div>
                         </div>
                     </form>
@@ -106,6 +128,7 @@
                     "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
                 }
             });
+            llenarCombo();
         });
 
         $("#btnGuardar").click(function(e) {
@@ -120,7 +143,7 @@
                 dataType: "json",
                 data: data,
                 success: function(response) {
-                    // console.log(response)
+                    console.log(response)
                     var mensaje = (response) ? 'Registo guardado correctamente.' :
                         'Error al insertar registro';
                     toastr.success(mensaje, 'Nuevo Registro', {
@@ -130,7 +153,10 @@
                 },
                 error: function(res) {
                     const errors = res.responseJSON.errors;
-                    (errors.zona != undefined) ? $("#ar").text(`*${errors.zona}`): $("#ar").hide();
+                    console.log(errors);
+                    (errors.nombre_subdivision != undefined) ? $("#sub").text(`*${errors.nombre_subdivision}`): $("#sub").hide();
+                    (errors.costo != undefined) ? $("#cos").text(`*${errors.costo}`): $("#cos").hide();
+                    (errors.tributo_id != undefined) ? $("#cat").text(`*${errors.tributo_id}`): $("#cat").hide();
                 }
             })
         });
@@ -140,7 +166,7 @@
             var data = form.serialize()
             $.ajax({
                 type: "POST",
-                url: "/residence-area/update",
+                url: "/subdivision-tax/update",
                 dataType: "json",
                 data: data,
                 success: function(response) {
@@ -153,26 +179,28 @@
                 },
                 error: function(res) {
                     const errors = res.responseJSON.errors;
-                    (errors.zona != undefined) ? $("#raa").text(`*${errors.zona}`): $("#raa")
-                        .hide();
-                    (errors.cantidad != undefined) ? $("#cant").text(`*${errors.cantidad}`): $("#cant")
-                        .hide();
+                    (errors.nombre_subdivision != undefined) ? $("#suba").text(`*${errors.nombre_subdivision}`): $("#suba").hide();
+                    (errors.costo != undefined) ? $("#cosa").text(`*${errors.costo}`): $("#cosa").hide();
+                    (errors.tributo_id != undefined) ? $("#cata").text(`*${errors.tributo_id}`): $("#cata").hide();
                     toastr.error("Error: Registro NO Actualizado", "Operacion No Completada");
                 }
             })
         });
 
         $(document).on("click", "#edit", function(e) {
+            $("#taxtype2").empty();
+            llenarComboE();
             let idEditar = $(this).attr("value");
             $.ajax({
                 type: "GET",
                 dataType: "json",
-                url: "/residence-area/edit/" + idEditar,
+                url: "/subdivision-tax/edit/" + idEditar,
                 success: function(r) {
                     $("#exampleModal").modal("show"); //abro el modal
                     $("#id").val(r['id']);
-                    $("#zona").val(r['zona']);
-                    $("#cantidad").val(r['cantidad']);
+                    $("#tributo").val(r['nombre_subdivision']);
+                    $("#costo").val(r['costo']);
+                    $("#taxtype2").val(r['tributo_id']);
                 },
             });
             e.preventDefault();
@@ -193,16 +221,42 @@
                     $.ajax({
                         type: "GET",
                         dataType: "json",
-                        url: "/residence-area/delete/" + idEliminar,
+                        url: "/subdivision-tax/delete/" + idEliminar,
                         success: function(response) {
                             location.reload();
                         }
                     });
-                    toastr.error("Exito: Registro Eliminado", "Operacion Exitosa");
+                    toastr.success("Exito: Registro Eliminado", "Operacion Exitosa");
                 }
             })
             e.preventDefault();
         });
+
+        const llenarCombo = () => {
+            $.ajax({
+                type: "GET",
+                url: "/tax/show",
+                dataType: "json",
+                success: function(data) {
+                    for (var key in data) {
+                        $("#taxtype").append('<option value=' + data[key]['id'] + '>' + data[key]['tributo'] + '</option>');
+                    }
+                }
+            });
+        }
+
+        const llenarComboE = () => {
+            $.ajax({
+                type: "GET",
+                url: "/tax/show",
+                dataType: "json",
+                success: function(data) {
+                    for (var key in data) {
+                        $("#taxtype2").append('<option value=' + data[key]['id'] + '>' + data[key]['tributo'] + '</option>');
+                    }
+                }
+            });
+        }
     </script>
 
 @endsection

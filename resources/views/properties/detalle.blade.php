@@ -36,8 +36,7 @@
                         </div>
                         <div class="col-12 col-sm-6 col-md-6 my-2">
                             <p class="text-muted text-gray">Colonia</p>
-                            <select name="colonia" id="colonia"
-                                class="form-control rounded-md shadow-sm mt-1 block w-full">
+                            <select name="colonia" id="colonia" class="form-control rounded-md shadow-sm mt-1 block w-full">
                                 <option value="" selected>-- Colonias --</option>
                                 @foreach ($colonias as $item)
                                     <option value="{{ $item->id }}">{{ $item->colonia }}</option>
@@ -67,15 +66,6 @@
                             <p class="text-muted text-gray"># Propiedad</p>
                             <input class="form-control" type="text" id="txtNum" name="num"
                                 placeholder="Número de Propiedad">
-                        </div>
-                        <div class="col-12 col-sm-6  my-2">
-                            <p class="text-muted text-gray">Zona</p>
-                            <select name="zona" id="zona" class="form-control rounded-md shadow-sm mt-1 block w-full">
-                                <option value="" selected>-- Zonas --</option>
-                                @foreach ($zonas as $item)
-                                    <option value="{{ $item->id }}">{{ $item->zona }}</option>
-                                @endforeach
-                            </select>
                         </div>
                         <div class="col-12 mt-1 text-center card-footer bg-transparent border-primary">
                             <button class="btn btn-primary mt-2  btn-md" id="btnGuardar">Agregar</button>
@@ -133,8 +123,7 @@
                             </div>
                             <div class="col-12 col-sm-6 col-md-6 my-2">
                                 <p class="text-muted text-gray">Calle</p>
-                                <input class="form-control" type="text" id="txtCalle" name="calle"
-                                    placeholder="Calle">
+                                <input class="form-control" type="text" id="txtCalle" name="calle" placeholder="Calle">
                             </div>
                             <div class="col-12 col-sm-6 col-md-6 my-2">
                                 <p class="text-muted text-gray">Pasaje</p>
@@ -145,15 +134,6 @@
                                 <p class="text-muted text-gray"># Propiedad</p>
                                 <input class="form-control" type="text" id="txtNum" name="num"
                                     placeholder="Número de Propiedad">
-                            </div>
-                            <div class="col-12 col-sm-6  my-2">
-                                <p class="text-muted text-gray">Zona</p>
-                                <select name="zona" id="sZona" class="form-control rounded-md shadow-sm mt-1 block w-full">
-                                    <option value="" selected>-- Zonas --</option>
-                                    @foreach ($zonas as $item)
-                                        <option value="{{ $item->id }}">{{ $item->zona }}</option>
-                                    @endforeach
-                                </select>
                             </div>
                     </form>
                 </div>
@@ -166,7 +146,6 @@
             </div>
         </div>
     </div>
-
 
 @endsection
 
@@ -202,7 +181,6 @@
                     console.log('ERROR')
                 }
             })
-
         });
 
         $("#btnActualizar").click(function(e) {
@@ -245,13 +223,10 @@
                     $("#txtCalle").val(r['calle']);
                     var idColonia = r['colonia_id'];
                     var idTipo = r['tipo_inmueble_id'];
-                    var idZona = r['zona_residencia_id'];
 
-                //var fecha = r['fecha_nacimiento'];
-                $("#sColonia option[value='"+ idColonia +"']").attr("selected",true);
-                $("#sTipo option[value='"+ idTipo +"']").attr("selected",true);
-                $("#sZona option[value='"+ idZona +"']").attr("selected",true);
-
+                    //var fecha = r['fecha_nacimiento'];
+                    $("#sColonia option[value='" + idColonia + "']").attr("selected", true);
+                    $("#sTipo option[value='" + idTipo + "']").attr("selected", true);
                 },
             });
             e.preventDefault();
@@ -294,7 +269,7 @@
                     console.log(data);
                     html = "<table class='table table-striped' id='tablafiltro' width='100%'><thead>";
                     html +=
-                        "<tr><th scope='col'>ID</th><th scope='col'>COLONIA</th><th scope='col'>TIPO INMUEBLE</th><th scope='col'>ZONA</th>";
+                        "<tr><th scope='col'>ID</th><th scope='col'>COLONIA</th><th scope='col'>TIPO INMUEBLE</th>";
                     html +=
                         "<th scope='col'>CALLE</th><th scope='col'>PASAJE</th><th scope='col'>ANCHO</th><th scope='col'>LARGO</th><th scope='col'>AREA CUADRADA</th><th scope='col'>ACCIONES</th></tr></thead>";
                     html += "<tbody>";
@@ -304,7 +279,6 @@
                         html += "<td>" + data[key]['id'] + "</td>";
                         html += "<td>" + data[key]['colonia'] + "</td>";
                         html += "<td>" + data[key]['tipo_inmueble'] + "</td>";
-                        html += "<td>" + data[key]['zona'] + "</td>";
                         html += "<td>" + data[key]['calle'] + "</td>";
                         html += "<td>" + data[key]['pasaje'] + "</td>";
                         html += "<td>" + data[key]['ancho'] + "</td>";

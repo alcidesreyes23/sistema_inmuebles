@@ -130,7 +130,7 @@
                                     <li class="nav-item"> <a class="nav-link"
                                             href="{{ route('tax.index') }}">Tributos</a></li>
                                     <li class="nav-item"> <a class="nav-link"
-                                            href="{{ route('residencearea.index') }}">Zona de residencia</a></li>
+                                            href="{{ route('subdivisiontax.index') }}">Subdivision tributos</a></li>
                                     <li class="nav-item"> <a class="nav-link"
                                             href="{{ route('propertytype.index') }}">Propiedades/categorias</a></li>
                                     <li class="nav-item"> <a class="nav-link"

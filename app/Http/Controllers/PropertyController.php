@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Citizen;
 use App\Models\Property;
 use App\Models\PropertyType;
-use App\Models\ResidenceArea;
 use App\Models\Suburb;
+use App\Models\Tax;
 use Illuminate\Http\Request;
 
 class PropertyController extends Controller
@@ -28,10 +28,10 @@ class PropertyController extends Controller
 
     public function detalles($id)
     {
+        $tributos = Tax::all();
         $colonias = Suburb::all();
         $tipos = PropertyType::all();
-        $zonas = ResidenceArea::all();
-        return View('properties.detalle',compact('id','colonias','tipos','zonas'));
+        return View('properties.detalle',compact('id','colonias','tipos','tributos'));
     }
 
 
@@ -39,10 +39,9 @@ class PropertyController extends Controller
     {
         if (request()->ajax()) {
             $data = Property::where("ciudadano_id","=",$id)
-            ->select('properties.id','suburbs.id as idColonia','suburbs.colonia','property_types.tipo_inmueble','residence_areas.zona','properties.pasaje','properties.calle','properties.ancho','properties.largo','properties.total')
+            ->select('properties.id','suburbs.id as idColonia','suburbs.colonia','property_types.tipo_inmueble','properties.pasaje','properties.calle','properties.ancho','properties.largo','properties.total')
                         ->join('suburbs','suburbs.id','=','properties.colonia_id')
                         ->join('property_types','property_types.id','=','properties.tipo_inmueble_id')
-                        ->join('residence_areas','residence_areas.id','=','properties.zona_residencia_id')
                     ->get();
 
             return response()->json($data);
@@ -83,7 +82,6 @@ class PropertyController extends Controller
             $newData->ciudadano_id = $request->idCiudadano;
             $newData->colonia_id = $request->colonia;
             $newData->tipo_inmueble_id = $request->tipo;
-            $newData->zona_residencia_id = $request->zona;
             $newData->numero_inmueble = $request->num;
             $newData->ancho = $request->ancho;
             $newData->largo = $request->largo;
@@ -141,7 +139,6 @@ class PropertyController extends Controller
                 'ciudadano_id' => $data['idCiudadano'],
                 'colonia_id' => $data['colonia'],
                 'tipo_inmueble_id' => $data['tipo'],
-                'zona_residencia_id' => $data['zona'],
                 'numero_inmueble' => $data['num'],
                 'ancho' => $data['ancho'],
                 'largo' => $data['largo'],

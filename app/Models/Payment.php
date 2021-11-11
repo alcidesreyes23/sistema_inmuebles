@@ -12,4 +12,8 @@ class Payment extends Model
     public function property_type_payments() {
         return $this->hasMany('App\Models\PropertyTaxPayment');
     }
+
+    public function tax() {
+        return $this->belongsTo('App\Models\Tax');
+    }
 }

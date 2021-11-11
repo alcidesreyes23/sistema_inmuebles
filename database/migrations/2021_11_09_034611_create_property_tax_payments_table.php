@@ -15,10 +15,11 @@ class CreatePropertyTaxPaymentsTable extends Migration
     {
         Schema::create('property_tax_payments', function (Blueprint $table) {
             $table->unsignedBigInteger('pago_id')->nullable();
-            $table->unsignedBigInteger('inmueble_tributo_id')->nullable();
+            $table->unsignedBigInteger('inmueble_id')->nullable();
             $table->string('mes');
+            $table->integer('anio');
             $table->foreign('pago_id')->references('id')->on('payments')->onDelete('set null');
-            $table->foreign('inmueble_tributo_id')->references('id')->on('property_taxes')->onDelete('set null');
+            $table->foreign('inmueble_id')->references('id')->on('properties')->onDelete('set null');
             $table->timestamps();
         });
     }
