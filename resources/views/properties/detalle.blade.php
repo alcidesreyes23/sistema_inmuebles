@@ -63,7 +63,12 @@
                             <input class="form-control" type="text" id="pasaje" name="pasaje"
                                 placeholder="Pasaje">
                         </div>
-                        <div class="col-12  my-2">
+                        <div class="col-12 col-sm-6 col-md-6 my-2">
+                            <p class="text-muted text-gray"># Propiedad</p>
+                            <input class="form-control" type="text" id="txtNum" name="num"
+                                placeholder="Número de Propiedad">
+                        </div>
+                        <div class="col-12 col-sm-6  my-2">
                             <p class="text-muted text-gray">Zona</p>
                             <select name="zona" id="zona" class="form-control rounded-md shadow-sm mt-1 block w-full">
                                 <option value="" selected>-- Zonas --</option>
@@ -136,7 +141,12 @@
                                 <input class="form-control" type="text" id="txtPasaje" name="pasaje"
                                     placeholder="Pasaje">
                             </div>
-                            <div class="col-12  my-2">
+                            <div class="col-12 col-sm-6 col-md-6 my-2">
+                                <p class="text-muted text-gray"># Propiedad</p>
+                                <input class="form-control" type="text" id="txtNum" name="num"
+                                    placeholder="Número de Propiedad">
+                            </div>
+                            <div class="col-12 col-sm-6  my-2">
                                 <p class="text-muted text-gray">Zona</p>
                                 <select name="zona" id="sZona" class="form-control rounded-md shadow-sm mt-1 block w-full">
                                     <option value="" selected>-- Zonas --</option>

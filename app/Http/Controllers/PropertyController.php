@@ -22,7 +22,7 @@ class PropertyController extends Controller
      */
     public function index()
     {
-        $data = Citizen::where('posee_inmueble','=','Si')->select('*')->get();
+        $data = Citizen::All();
         return view("properties.index",compact('data'));
     }
 
@@ -47,6 +47,16 @@ class PropertyController extends Controller
 
             return response()->json($data);
         }
+    }
+
+    public function propiedades()
+    {
+        $data = Property::select('properties.id as id','properties.numero_inmueble as num','properties.calle as calle',
+        'citizens.nombres as nombres','citizens.apellidos as apellidos','citizens.dui as dui','citizens.nit as nit')
+                ->join('citizens','citizens.id','=','properties.ciudadano_id')
+                ->get();
+
+        return view("pagos.index",compact('data'));
     }
 
     /**
@@ -74,6 +84,7 @@ class PropertyController extends Controller
             $newData->colonia_id = $request->colonia;
             $newData->tipo_inmueble_id = $request->tipo;
             $newData->zona_residencia_id = $request->zona;
+            $newData->numero_inmueble = $request->num;
             $newData->ancho = $request->ancho;
             $newData->largo = $request->largo;
             $newData->total = $request->ancho * $request->largo;
@@ -131,7 +142,7 @@ class PropertyController extends Controller
                 'colonia_id' => $data['colonia'],
                 'tipo_inmueble_id' => $data['tipo'],
                 'zona_residencia_id' => $data['zona'],
-                'numero_inmueble' => 0,
+                'numero_inmueble' => $data['num'],
                 'ancho' => $data['ancho'],
                 'largo' => $data['largo'],
                 'total' => $data['ancho'] * $data['largo'],

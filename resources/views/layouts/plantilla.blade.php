@@ -108,6 +108,13 @@
                         </a>
                     </li>
 
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('pagos.index') }}">
+                            <i class="icon-grid menu-icon"></i>
+                            <span class="menu-title">Pagos Propiedades</span>
+                        </a>
+                    </li>
+
                     @if (auth()->user()->rol == 'Admin')
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false"

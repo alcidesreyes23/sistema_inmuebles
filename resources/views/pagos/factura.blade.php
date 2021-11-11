@@ -1,0 +1,1 @@
+AREA DE PAGO DE INMUEBLE + {{$id}}

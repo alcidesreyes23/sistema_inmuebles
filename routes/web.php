@@ -8,7 +8,9 @@ use App\Http\Controllers\SuburbController;
 use App\Http\Controllers\TaxTypeController;
 use App\Http\Controllers\TaxController;
 use App\Http\Controllers\PropertyController;
+use App\Http\Controllers\PropertyTaxPaymentController;
 use App\Http\Controllers\PropertyTypeController;
+use App\Models\PropertyTaxPayment;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -135,5 +137,11 @@ Route::get('/properties/edit/{id}', [PropertyController::class, 'edit']);
 Route::post('/properties/store', [PropertyController::class, 'store'])->name('properties.store');
 Route::put('/properties/update', [PropertyController::class, 'update'])->name('properties.update');
 Route::get('/properties/delete/{id}', [PropertyController::class, 'destroy']);
+Route::get('/pagos',[PropertyController::class,'propiedades'])->name('pagos.index');
 
+
+
+/***************   PAGOS DE TAXES**********************/
+/************************************************************************/
+Route::get('/pagos/factura/{id}',[PropertyTaxPaymentController::class,'factura'])->name('pagos.factura');
 
