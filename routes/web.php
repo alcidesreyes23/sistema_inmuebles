@@ -169,3 +169,10 @@ Route::put('/subdivision-tax/update', [SubdivisionTaxController::class, 'update'
 /************************************************************************/
 Route::get('/property-status',[PropertyTaxController::class,'index'])->name('property-status.index');
 Route::get('/property-status/detalles/{id}', [PropertyTaxController::class, 'detalles'])->name('property-status.detalles');
+/************************************************************************/
+/***************    ACCOUNT TAX CRUD ADMIN**********************/
+/************************************************************************/
+Route::get('/account-statements', [PropertyTaxController::class, 'detCitizens'])->name('account.index')->middleware('auth');
+Route::get('/account-statements/detail-property/{id}', [PropertyTaxController::class, 'detProperties'])->name('account.detallesin');
+Route::get('/account-statements/detail-tax/{id}', [PropertyTaxController::class, 'detTaxes'])->name('account.detallestax');;
+Route::get('/account-statements/detail-account/{id}', [PropertyTaxController::class, 'detAccount'])->name('account.detallesaccount');
