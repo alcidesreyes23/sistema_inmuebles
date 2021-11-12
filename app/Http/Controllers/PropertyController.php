@@ -26,8 +26,25 @@ class PropertyController extends Controller
 
     public function addTax($id)
     {
+     
+        //$data = PropertyTax::all();
+        $data = PropertyTax::where("inmueble_id","=",$id)
+        
+        ->select('property_taxes.id','taxes.tributo','property_taxes.monto_fijo','property_taxes.monto_pagado','property_taxes.deuda_total',)
+                    ->join('taxes','taxes.id','=','property_taxes.tributo_id')
+        ->get();
+
         $taxes = Tax::all();
-        return view("properties.add-tax",compact('id','taxes'));
+        return view("properties.add-tax",compact('id','taxes','data'));
+    }
+
+    public function destroy2($id)
+    {
+        if (request()->ajax()) {
+            PropertyTax::destroy($id);
+            app(BinnacleController::class)->store("Delete", "Eliminación de tributo en propiedad.", auth()->user()->name);
+            return response()->json();
+        }
     }
 
     public function detalles($id)
@@ -46,7 +63,7 @@ class PropertyController extends Controller
             ->select('properties.id','suburbs.id as idColonia','suburbs.colonia','property_types.tipo_inmueble','properties.pasaje','properties.calle','properties.ancho','properties.largo','properties.total','properties.numero_inmueble')
                         ->join('suburbs','suburbs.id','=','properties.colonia_id')
                         ->join('property_types','property_types.id','=','properties.tipo_inmueble_id')
-                    ->get();
+            ->get();
 
             return response()->json($data);
         }
@@ -65,7 +82,7 @@ class PropertyController extends Controller
             $tax_id = $request->tributo_id;
             $inmueble_id = $request->inmueble_id;
             $fecha = $request->mes;
-            $numPagos = 12 - date('M', strtotime($fecha));
+            $numPagos = 12 - date('m', strtotime($fecha));
             $deuda = 0;
             $montoFijo = 0;
 

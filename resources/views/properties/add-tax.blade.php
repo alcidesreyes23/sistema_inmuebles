@@ -31,12 +31,26 @@
                             <th scope='col'>ID</th>
                             <th scope='col'>TRIBUTO</th>
                             <th scope='col'>MONTO FIJO</th>
+                            <th scope='col'>MONTO PAGADO</th>
                             <th scope='col'>DEUDA TOTAL</th>
                             <th scope='col'>ACCIONES</th>
                         </tr>
                     </thead>
                     <tbody>
-                      
+                        @foreach ($data as $data)
+                        <tr>
+                            <td>{{ $data->id }}</td>
+                            <td>{{ $data->tributo }}</td>
+                            <td>${{ $data->monto_fijo }}</td>
+                            <td>${{ $data->monto_pagado }}</td>
+                            <td>${{ $data->deuda_total }}</td>
+                            <td>
+                                <a href="#" id="del" value="{{ $data->id }}" class="btn  btn-danger"> 
+                                    <i class="ti-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -75,7 +89,7 @@
                             <small id="ids" class="text-danger"></small>
                         </div>
                         <div class="col-12 mt-1 text-center card-footer bg-transparent border-primary">
-                            <button type="submit" class="btn btn-primary mt-2  btn-md" id="btnGuardar">Agregar</button>
+                            <button class="btn btn-primary mt-2  btn-md" id="btnGuardar">Agregar</button>
                         </div>
                     </div>
                 </form>
@@ -87,8 +101,11 @@
 @endsection
 
 @section('js')
+
     <script>
+
         $(document).ready(function() {
+            
             $('#tablafiltro').DataTable({
                 "language": {
                     "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
@@ -99,7 +116,10 @@
                         extend: 'excelHtml5',
                         text: '<i class="fas fa-file-excel"></i> ',
                         titleAttr: 'Exportar a Excel',
-                        className: 'btn btn-sm btn-success'
+                        className: 'btn btn-sm btn-success',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4]
+                        }
                     },
                     {
                         extend: 'pdfHtml5',
@@ -107,14 +127,17 @@
                         titleAttr: 'Exportar a PDF',
                         className: 'btn btn-sm btn-danger',
                         exportOptions: {
-                            columns: [0, 1, 2, 3]
+                            columns: [0, 1, 2, 3, 4]
                         }
                     },
                     {
                         extend: 'print',
                         text: '<i class="fa fa-print"></i> ',
                         titleAttr: 'Imprimir',
-                        className: 'btn btn-sm btn-info'
+                        className: 'btn btn-sm btn-info',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4]
+                        }
                     },
 
                 ],
@@ -150,10 +173,13 @@
                     $("#sub").append('<option value=' + data[key]['id'] + '>' + data[key]['nombre_subdivision'] +
                         '</option>');
                 }
+                }
             }
 
 
-            $("#btnGuardar").click(function(e) {
+        });
+
+        $("#btnGuardar").click(function(e) {
                 e.preventDefault()
                 var form = $("#miFormulario")
                 var method = form.attr('method')
@@ -165,11 +191,11 @@
                     dataType: "json",
                     data: data,
                     success: function(response) {
-                        var mensaje = (response) ? 'Pago exitoso!.' : 'Error al realizar pago';
-                        toastr.success(mensaje, 'Pago', {
+                        var mensaje = (response) ? 'Asignación de tributos correcta!.' : 'Error al realizar asignacion';
+                        toastr.success(mensaje, 'Exito', {
                             timeOut: 4000
                         });
-                        location.reload();
+                         location.reload();
                     },
                     error: function(res) {
                         console.log(res);
@@ -177,8 +203,32 @@
                 })
                 
             });
-        }
 
+            $(document).on("click", "#del", function(e) {
+            let idEliminar = $(this).attr("value");
+            Swal.fire({
+                title: 'Seguro desea eliminar?',
+                text: "Solo se cambiara el estado del registro",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, eliminar!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "GET",
+                        dataType: "json",
+                        url: "/properties/delete2/" + idEliminar,
+                        success: function(response) {
+                            location.reload();
+                        }
+                    });
+                    toastr.success("Exito: Registro Eliminado", "Operacion Exitosa");
+                }
+            })
+            e.preventDefault();
+        });
       
     </script>
 

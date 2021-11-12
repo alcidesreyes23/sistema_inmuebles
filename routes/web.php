@@ -143,6 +143,7 @@ Route::get('/properties/addTax/{id}', [PropertyController::class, 'addTax'])->na
 
 
 Route::post('/properties/totalTax', [PropertyController::class, 'totalTaxt'])->name('properties.tax');
+Route::get('/properties/delete2/{id}', [PropertyController::class, 'destroy2']);
 
 
 
