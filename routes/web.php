@@ -182,4 +182,4 @@ Route::get('/property-status/detalles/{id}', [PropertyTaxController::class, 'det
 Route::get('/account-statements', [PropertyTaxController::class, 'detCitizens'])->name('account.index')->middleware('auth');
 Route::get('/account-statements/detail-property/{id}', [PropertyTaxController::class, 'detProperties'])->name('account.detallesin');
 Route::get('/account-statements/detail-tax/{id}', [PropertyTaxController::class, 'detTaxes'])->name('account.detallestax');;
-Route::get('/account-statements/detail-account/{id}', [PropertyTaxController::class, 'detAccount'])->name('account.detallesaccount');
+Route::get('/account-statements/detail-account/{id}/{idI}', [PropertyTaxController::class, 'detAccount'])->name('account.detallesaccount');

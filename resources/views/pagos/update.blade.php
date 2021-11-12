@@ -17,6 +17,7 @@
                     @method('PUT')
                     @csrf
                     <input type="hidden" name="monto_old" value="{{$data->monto_pago}}"/>
+                    <input type="hidden" name="tributo_id" value="{{$data->tributo_id}}"/>
                     <div class="row">
                         <div class="col-12 col-sm-3 col-md-3 my-2">
                             <p class="text-muted text-gray">ID del inmueble:</p>
@@ -101,7 +102,7 @@
 
             $("#btnGuardar").click(function(e) {
                 e.preventDefault()
-                $("#pago_id,#saldo").attr("disabled", false);
+                $("#inmueble_id,#pago_id,#saldo").attr("disabled", false);
                 var form = $("#frmPagos")
                 var method = form.attr('method')
                 var action = form.attr('action')

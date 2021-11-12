@@ -3,19 +3,21 @@
 @section('title', 'Tributos')
 
 @section('css')
-<style>
-    /*para alinear los botones y cuadro de busqueda*/
-    .btn-group, .btn-group-vertical {
-        position: absolute !important;
-}
-</style>
-   
+    <style>
+        /*para alinear los botones y cuadro de busqueda*/
+        .btn-group,
+        .btn-group-vertical {
+            position: absolute !important;
+        }
+
+    </style>
+
 
 @section('content')
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
             <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
-                role="tab" aria-controls="home" aria-selected="true">Tributos para Inmueble = {{$id}}</button>
+                role="tab" aria-controls="home" aria-selected="true">Tributos para Inmueble = {{ $id }}</button>
         </li>
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
@@ -61,8 +63,8 @@
                     @csrf
                     <div class="row">
                         <input class="form-control" type="hidden" id="inmueble_id" name="inmueble_id"
-                                value="{{ $id }}">
-                            <small id="idi" class="text-danger"></small>
+                            value="{{ $id }}">
+                        <small id="idi" class="text-danger"></small>
                         <div class="col-12"></div>
                         <div class="col-12 col-sm-5 col-md-5 my-2">
                             <p class="text-muted text-gray">Fecha de registro:</p>
@@ -167,11 +169,14 @@
             });
 
             const llenarCombo = (data) => {
-            $("#sub").append('<option value="" selected>-- Categoria --</option>');
-            if (data.length > 0) {
-                for (var key in data) {
-                    $("#sub").append('<option value=' + data[key]['id'] + '>' + data[key]['nombre_subdivision'] +
-                        '</option>');
+                $("#sub").append('<option value="" selected>-- Categoria --</option>');
+                if (data.length > 0) {
+                    for (var key in data) {
+                        $("#sub").append('<option value=' + data[key]['id'] + '>' + data[key][
+                                'nombre_subdivision'
+                            ] +
+                            '</option>');
+                    }
                 }
                 }
             }

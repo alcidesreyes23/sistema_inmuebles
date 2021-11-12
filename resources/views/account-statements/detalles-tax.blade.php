@@ -30,7 +30,7 @@
                             <td>{{ $data->deuda_total }}</td>
                             <td>{{ $data->created_at }}</td>
                             <td>
-                                <a href="{{ route('account.detallesaccount', $data->id) }}" class="btn  btn-warning text-white">
+                                <a href="{{ route('account.detallesaccount', ['id' => $data->id, 'idI' => $id] ) }}" class="btn  btn-warning text-white">
                                     ESTADO DE CUENTA
                                 </a>
                             </td>

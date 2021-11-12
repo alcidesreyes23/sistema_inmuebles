@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Property;
 use App\Models\Payment;
+use App\Models\PropertyTax;
 use App\Models\SubdivisionTax;
 use App\Models\Tax;
 use Illuminate\Http\Request;
@@ -94,16 +95,18 @@ class PaymentController extends Controller
         ]);
 
         if ($request->ajax()) {
-
+            $mora = $request->mora;
             $newData = new Payment();
             $newData->tributo_id = $request->tributo_id;
             $newData->monto_pago = $request->monto_pago;
             $newData->saldo = $request->saldo;
-            $newData->mora = $request->mora;
+            $newData->mora = $mora;
             $newData->total_pagar = $request->total_pagar;
             $newData->save();
 
             $lastId = Payment::latest('id')->first()->id;
+            $monto_f = ($mora != 0) ? $request->monto_pago - $mora: $request->monto_pago;
+            PropertyTax::where('tributo_id',$request->tributo_id)->where('inmueble_id',$request->inmueble_id)->increment('monto_pagado',$monto_f);
             app(PropertyTaxPaymentController::class)->store($lastId, $request);
             app(BinnacleController::class)->store("Insert", "Registro de nuevo pago.", auth()->user()->name);
             return response()->json();
@@ -149,6 +152,7 @@ class PaymentController extends Controller
                 'saldo' => $data['saldo'],
             ]);
             Payment::where('id', '=', $request->pago_id)->update($array);
+            PropertyTax::where('tributo_id',$request->tributo_id)->where('inmueble_id',$request->inmueble_id)->increment('monto_pagado',$request->monto_pago);
             app(BinnacleController::class)->store("Update", "Actualizacion de pago.", auth()->user()->name);
             return response()->json($data);
         }
