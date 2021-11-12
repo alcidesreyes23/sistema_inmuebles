@@ -24,4 +24,8 @@ class Property extends Model
     public function property_tax_payment() {
         return $this->hasMany('App\Models\PropertyTaxPayment');
     }
+
+    public function property_taxes() {
+        return $this->hasMany('App\Models\PropertyTax');
+    }
 }

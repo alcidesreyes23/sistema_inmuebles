@@ -20,4 +20,8 @@ class Tax extends Model
     public function subdivision_taxes() {
         return $this->hasMany('App\Models\SubdivisionTax');
     }
+
+    public function property_taxes() {
+        return $this->hasMany('App\Models\PropertyTax');
+    }
 }
