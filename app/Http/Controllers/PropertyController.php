@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Citizen;
 use App\Models\Property;
+use App\Models\PropertyTax;
 use App\Models\PropertyType;
 use App\Models\Suburb;
 use App\Models\Tax;
 use Illuminate\Http\Request;
+use App\Models\SubdivisionTax;
 
 class PropertyController extends Controller
 {
@@ -20,6 +22,12 @@ class PropertyController extends Controller
     {
         $data = Citizen::All();
         return view("properties.index",compact('data'));
+    }
+
+    public function addTax($id)
+    {
+        $taxes = Tax::all();
+        return view("properties.add-tax",compact('id','taxes'));
     }
 
     public function detalles($id)
@@ -47,6 +55,55 @@ class PropertyController extends Controller
     public function create()
     {
         //
+    }
+    
+    public function totalTaxt(Request $request)
+    {
+        if (request()->ajax()) {
+            /*Captutamos campos necesarios y datos que se necesitan apra el calculo*/
+            $sub_id = ($request->sub_id != null) ? $request->sub_id : 0;
+            $tax_id = $request->tributo_id;
+            $inmueble_id = $request->inmueble_id;
+            $fecha = $request->mes;
+            $numPagos = 12 - date('M', strtotime($fecha));
+            $deuda = 0;
+            $montoFijo = 0;
+
+             /*Consultamos el costo que tiene el tax seleccionado*/
+            $costoTax = Tax::select('taxes.costo')->where('taxes.id', '=', $tax_id)->get()->first()->costo;
+
+            if ($sub_id != 0) {
+                $costoTax = SubdivisionTax::select('subdivision_taxes.costo')->where('subdivision_taxes.id', '=', $sub_id)->get()->first()->costo;
+            }
+
+             /*Consultamos la longitud de nuestro inmueble*/
+            $longitud = Property::select('properties.total')->where('properties.id', '=', $inmueble_id)->get()->first()->total;
+
+
+            /*Calculamos deuda total apartir del mes de registro y costo fijo*/ 
+            if($tax_id == 1)
+            {
+                $montoFijo =  sqrt($longitud) * $costoTax ;
+                $deuda = sqrt($longitud) * $costoTax * $numPagos;
+            }else if ($sub_id == 5)
+            {
+                $deuda = $costoTax;
+                $montoFijo = $costoTax;
+            }else{
+                $deuda = $longitud * $costoTax * $numPagos;
+                $montoFijo =  $longitud * $costoTax;
+            }
+
+            $newData = new PropertyTax();
+            $newData->tributo_id = $request->tributo_id;
+            $newData->inmueble_id = $request->inmueble_id;
+            $newData->monto_fijo = $montoFijo;
+            $newData->monto_pagado = 0;
+            $newData->deuda_total = $deuda;
+            $newData->save();
+
+            return response()->json();
+        }
     }
 
     public function store(Request $request)

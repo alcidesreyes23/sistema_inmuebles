@@ -139,6 +139,11 @@ Route::get('/properties/edit/{id}', [PropertyController::class, 'edit']);
 Route::post('/properties/store', [PropertyController::class, 'store'])->name('properties.store');
 Route::put('/properties/update', [PropertyController::class, 'update'])->name('properties.update');
 Route::get('/properties/delete/{id}', [PropertyController::class, 'destroy']);
+Route::get('/properties/addTax/{id}', [PropertyController::class, 'addTax'])->name('properties.addTax');
+
+
+Route::post('/properties/totalTax', [PropertyController::class, 'totalTaxt'])->name('properties.tax');
+
 
 
 
@@ -169,6 +174,7 @@ Route::put('/subdivision-tax/update', [SubdivisionTaxController::class, 'update'
 /************************************************************************/
 Route::get('/property-status',[PropertyTaxController::class,'index'])->name('property-status.index');
 Route::get('/property-status/detalles/{id}', [PropertyTaxController::class, 'detalles'])->name('property-status.detalles');
+
 /************************************************************************/
 /***************    ACCOUNT TAX CRUD ADMIN**********************/
 /************************************************************************/

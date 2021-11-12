@@ -17,6 +17,7 @@ class CreatePropertyTaxesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('tributo_id')->nullable();
             $table->unsignedBigInteger('inmueble_id')->nullable();
+            $table->float('monto_fijo');
             $table->float('monto_pagado');
             $table->float('deuda_total');
             $table->foreign('tributo_id')->references('id')->on('taxes')->onDelete('set null');

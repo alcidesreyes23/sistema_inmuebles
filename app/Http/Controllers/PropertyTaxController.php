@@ -21,6 +21,16 @@ class PropertyTaxController extends Controller
         return view("property-status.index",compact('data'));
     }
 
+   /* public function addTax($id)
+    {
+        $data = DB::select('select tax.id, tax.tributo,pt.monto_pagado,pt.deuda_total, pt.created_at
+        from property_taxes pt
+        inner join properties inm on inm.id = pt.inmueble_id
+        inner join taxes tax on tax.id = pt.tributo_id
+        where inm.id = ?', [$id]);
+        return view('account-statements.add-tax',compact('id','data'));
+    }*/
+
     public function detalles($id)
     {
         $data = Property::where("ciudadano_id","=",$id)
