@@ -56,7 +56,7 @@ class PropertyController extends Controller
     {
         //
     }
-    
+
     public function totalTaxt(Request $request)
     {
         if (request()->ajax()) {
@@ -65,7 +65,7 @@ class PropertyController extends Controller
             $tax_id = $request->tributo_id;
             $inmueble_id = $request->inmueble_id;
             $fecha = $request->mes;
-            $numPagos = 12 - date('M', strtotime($fecha));
+            $numPagos = 12 - date('m', strtotime($fecha));
             $deuda = 0;
             $montoFijo = 0;
 
@@ -80,7 +80,7 @@ class PropertyController extends Controller
             $longitud = Property::select('properties.total')->where('properties.id', '=', $inmueble_id)->get()->first()->total;
 
 
-            /*Calculamos deuda total apartir del mes de registro y costo fijo*/ 
+            /*Calculamos deuda total apartir del mes de registro y costo fijo*/
             if($tax_id == 1)
             {
                 $montoFijo =  sqrt($longitud) * $costoTax ;
@@ -138,7 +138,7 @@ class PropertyController extends Controller
             Suburb::where('id', $request->colonia)->increment('cantidad', 1);
             PropertyType::where('id', $request->tipo)->increment('cantidad', 1);
 
-            
+
             /*Actualizando el campo para aquellos ciudadanos que no tenian propiedad en un Inicio*/
             Citizen::where('id', $request->idCiudadano)->update(array('posee_inmueble' => 'Si'));
 
