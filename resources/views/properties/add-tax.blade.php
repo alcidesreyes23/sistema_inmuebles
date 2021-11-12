@@ -3,21 +3,19 @@
 @section('title', 'Tributos')
 
 @section('css')
-    <style>
-        /*para alinear los botones y cuadro de busqueda*/
-        .btn-group,
-        .btn-group-vertical {
-            position: absolute !important;
-        }
-
-    </style>
+<style>
+    /*para alinear los botones y cuadro de busqueda*/
+    .btn-group, .btn-group-vertical {
+        position: absolute !important;
+}
+</style>
 
 
 @section('content')
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
             <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
-                role="tab" aria-controls="home" aria-selected="true">Tributos para Inmueble = {{ $id }}</button>
+                role="tab" aria-controls="home" aria-selected="true">Tributos para Inmueble = {{$id}}</button>
         </li>
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
@@ -43,16 +41,14 @@
                         <tr>
                             <td>{{ $data->id }}</td>
                             <td>{{ $data->tributo }}</td>
-                            <td>${{ $data->monto_fijo }}</td>
-                            <td>${{ $data->monto_pagado }}</td>
-                            <td>${{ $data->deuda_total }}</td>
+                            <td>${{ number_format($data->monto_fijo, 2) }}</td>
+                            <td>${{ number_format($data->monto_pagado, 2) }}</td>
+                            <td>${{ number_format($data->deuda_total, 2) }}</td>
                             <td>
-                                <a href="#" id="del" value="{{ $data->id }}" class="btn  btn-danger"> 
-                                    <i class="ti-trash"></i>
-                                </a>
+                                <a href="#" id="del" value="{{ $data->id }}" class="btn  btn-danger">  <i class="ti-trash"></i> </a>
                             </td>
                         </tr>
-                        @endforeach
+                    @endforeach
                     </tbody>
                 </table>
             </div>
@@ -63,8 +59,8 @@
                     @csrf
                     <div class="row">
                         <input class="form-control" type="hidden" id="inmueble_id" name="inmueble_id"
-                            value="{{ $id }}">
-                        <small id="idi" class="text-danger"></small>
+                                value="{{ $id }}">
+                            <small id="idi" class="text-danger"></small>
                         <div class="col-12"></div>
                         <div class="col-12 col-sm-5 col-md-5 my-2">
                             <p class="text-muted text-gray">Fecha de registro:</p>
@@ -91,7 +87,7 @@
                             <small id="ids" class="text-danger"></small>
                         </div>
                         <div class="col-12 mt-1 text-center card-footer bg-transparent border-primary">
-                            <button class="btn btn-primary mt-2  btn-md" id="btnGuardar">Agregar</button>
+                            <button type="submit" class="btn btn-primary mt-2  btn-md" id="btnGuardar">Agregar</button>
                         </div>
                     </div>
                 </form>
@@ -103,11 +99,8 @@
 @endsection
 
 @section('js')
-
     <script>
-
         $(document).ready(function() {
-            
             $('#tablafiltro').DataTable({
                 "language": {
                     "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
@@ -118,10 +111,7 @@
                         extend: 'excelHtml5',
                         text: '<i class="fas fa-file-excel"></i> ',
                         titleAttr: 'Exportar a Excel',
-                        className: 'btn btn-sm btn-success',
-                        exportOptions: {
-                            columns: [0, 1, 2, 3, 4]
-                        }
+                        className: 'btn btn-sm btn-success'
                     },
                     {
                         extend: 'pdfHtml5',
@@ -129,24 +119,18 @@
                         titleAttr: 'Exportar a PDF',
                         className: 'btn btn-sm btn-danger',
                         exportOptions: {
-                            columns: [0, 1, 2, 3, 4]
+                            columns: [0, 1, 2, 3]
                         }
                     },
                     {
                         extend: 'print',
                         text: '<i class="fa fa-print"></i> ',
                         titleAttr: 'Imprimir',
-                        className: 'btn btn-sm btn-info',
-                        exportOptions: {
-                            columns: [0, 1, 2, 3, 4]
-                        }
+                        className: 'btn btn-sm btn-info'
                     },
-
                 ],
-
                 /*End Reportes Data Table*/
             });
-
             $("#tributo").on("change", function() {
                 const id = $(this).val();
                 if (id) {
@@ -167,24 +151,15 @@
                     })
                 }
             });
-
             const llenarCombo = (data) => {
-                $("#sub").append('<option value="" selected>-- Categoria --</option>');
-                if (data.length > 0) {
-                    for (var key in data) {
-                        $("#sub").append('<option value=' + data[key]['id'] + '>' + data[key][
-                                'nombre_subdivision'
-                            ] +
-                            '</option>');
-                    }
+            $("#sub").append('<option value="" selected>-- Categoria --</option>');
+            if (data.length > 0) {
+                for (var key in data) {
+                    $("#sub").append('<option value=' + data[key]['id'] + '>' + data[key]['nombre_subdivision'] +
+                        '</option>');
                 }
-                }
-            }
-
-
-        });
-
-        $("#btnGuardar").click(function(e) {
+            }}
+            $("#btnGuardar").click(function(e) {
                 e.preventDefault()
                 var form = $("#miFormulario")
                 var method = form.attr('method')
@@ -196,11 +171,11 @@
                     dataType: "json",
                     data: data,
                     success: function(response) {
-                        var mensaje = (response) ? 'Asignación de tributos correcta!.' : 'Error al realizar asignacion';
-                        toastr.success(mensaje, 'Exito', {
+                        var mensaje = (response) ? 'Pago exitoso!.' : 'Error al realizar pago';
+                        toastr.success(mensaje, 'Pago', {
                             timeOut: 4000
                         });
-                         location.reload();
+                        location.reload();
                     },
                     error: function(res) {
                         console.log(res);
@@ -234,7 +209,8 @@
             })
             e.preventDefault();
         });
+
+        })
       
     </script>
-
 @endsection

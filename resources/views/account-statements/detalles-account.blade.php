@@ -2,6 +2,18 @@
 
 @section('title', 'Estado de cuenta')
 
+@section('css')
+    <style>
+        /*para alinear los botones y cuadro de busqueda*/
+        .btn-group,
+        .btn-group-vertical {
+            position: absolute !important;
+        }
+
+    </style>
+
+@endsection
+
 @section('content')
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
@@ -54,7 +66,41 @@
             $('#tablafiltro').DataTable({
                 "language": {
                     "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
-                }
+                },
+                 /*Reportes Data Table*/
+                 dom: 'Bfrtilp',
+                        buttons: [{
+                                extend: 'excelHtml5',
+                                text: '<i class="fas fa-file-excel"></i> ',
+                                titleAttr: 'Exportar a Excel',
+                                className: 'btn btn-sm btn-success',
+                                exportOptions: {
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                                }
+                            },
+                            {
+                                extend: 'pdfHtml5',
+                                text: '<i class="fas fa-file-pdf"></i> ',
+                                titleAttr: 'Exportar a PDF',
+                                className: 'btn btn-sm btn-danger',
+                                exportOptions: {
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                                }
+                            },
+                            {
+                                extend: 'print',
+                                text: '<i class="fa fa-print"></i> ',
+                                titleAttr: 'Imprimir',
+                                className: 'btn btn-sm btn-info',
+                                exportOptions: {
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                                }
+                            },
+
+
+                        ],
+
+                        /*End Reportes Data Table*/
             });
         })
     </script>

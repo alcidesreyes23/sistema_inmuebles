@@ -26,13 +26,11 @@ class PropertyController extends Controller
 
     public function addTax($id)
     {
-     
+
         //$data = PropertyTax::all();
         $data = PropertyTax::where("inmueble_id","=",$id)
-        
         ->select('property_taxes.id','taxes.tributo','property_taxes.monto_fijo','property_taxes.monto_pagado','property_taxes.deuda_total',)
-                    ->join('taxes','taxes.id','=','property_taxes.tributo_id')
-        ->get();
+                    ->join('taxes','taxes.id','=','property_taxes.tributo_id')->get();
 
         $taxes = Tax::all();
         return view("properties.add-tax",compact('id','taxes','data'));
