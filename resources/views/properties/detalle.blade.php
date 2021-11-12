@@ -352,6 +352,9 @@
                 <a href="#" id="del" value="${data[key]['id']}" class="btn  btn-danger text-white">
                   <i class="icon-trash"></i>
                 </a>
+                <a href="../../property-status/detalles/${data[key]['id']}" class="btn  btn-info text-white">
+                  <i class="ti-server"></i>
+                </a>
                 </td>`;
                         }
                         html += "</tr></tbody></table>"

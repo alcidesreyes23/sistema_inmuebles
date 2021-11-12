@@ -9,6 +9,7 @@ use App\Http\Controllers\SuburbController;
 use App\Http\Controllers\TaxTypeController;
 use App\Http\Controllers\TaxController;
 use App\Http\Controllers\PropertyController;
+use App\Http\Controllers\PropertyTaxController;
 use App\Http\Controllers\PropertyTaxPaymentController;
 use App\Http\Controllers\PropertyTypeController;
 use App\Http\Controllers\SubdivisionTaxController;
@@ -161,3 +162,10 @@ Route::post('/subdivision-tax/store', [SubdivisionTaxController::class, 'store']
 Route::get('/subdivision-tax/delete/{id}', [SubdivisionTaxController::class, 'destroy']);
 Route::get('/subdivision-tax/edit/{id}', [SubdivisionTaxController::class, 'edit']);
 Route::put('/subdivision-tax/update', [SubdivisionTaxController::class, 'update'])->name('subdivisiontax.update');
+
+
+/************************************************************************/
+/***************** PROPERTY STATUS   ************************************/
+/************************************************************************/
+Route::get('/property-status',[PropertyTaxController::class,'index'])->name('property-status.index');
+Route::get('/property-status/detalles/{id}', [PropertyTaxController::class, 'detalles'])->name('property-status.detalles');
