@@ -11,6 +11,9 @@
         </li>
     </ul>
     <div class="tab-content" id="myTabContent">
+        @if ($inmuebles != null)
+            <h2>{{$estado_ciudadano}}</h2>
+        @endif
         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
             <div id="categorie-table" class="modal-body table-responsive">
                 <table class='table table-striped table-bordered' id='tablafiltro' width='100%'>

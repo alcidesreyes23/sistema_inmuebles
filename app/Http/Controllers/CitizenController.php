@@ -106,11 +106,18 @@ class CitizenController extends Controller
                     array_push($tributos,$data2);
                 }
             }
+            $cont = 0;
+            foreach ($tributos as $key => $value) {
+                if (strcasecmp($value['estado'], 'moroso') == 0) $cont = 1;
+            }
+            $estado_ciudadano = ($cont == 1) ? 'Moroso' : 'Solvente';
         } else {
             $inmuebles = null;
             $tributos = null;
+            $estado_ciudadano = null;
         }
-        return view('solvency.index', compact('id', 'ciudadano', 'inmuebles', 'tributos'));
+
+        return view('solvency.index', compact('id', 'ciudadano', 'inmuebles', 'tributos','estado_ciudadano'));
     }
 
     public function show(Citizen $citizen)
