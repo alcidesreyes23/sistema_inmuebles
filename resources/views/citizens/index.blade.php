@@ -294,25 +294,25 @@
         var duiMask = IMask(
             document.getElementById('txtDui'), {
                 mask: '00000000-0',
-                lazy: true // make placeholder always visible              
+                lazy: true // make placeholder always visible
             }
         );
         var duiMask = IMask(
             document.getElementById('txtNit'), {
                 mask: '0000-000000-000-0',
-                lazy: true // make placeholder always visible              
+                lazy: true // make placeholder always visible
             }
         );
         var duiMask = IMask(
             document.getElementById('dui'), {
                 mask: '00000000-0',
-                lazy: true // make placeholder always visible              
+                lazy: true // make placeholder always visible
             }
         );
         var duiMask = IMask(
             document.getElementById('nit'), {
                 mask: '0000-000000-000-0',
-                lazy: true // make placeholder always visible              
+                lazy: true // make placeholder always visible
             }
         );
     </script>
@@ -350,6 +350,9 @@
                 <a href="#" id="del" value="${data[key]['id']}" class="btn  btn-danger text-white">
                   <i class="icon-trash"></i>
                 </a>
+                <a href="/citizens/solvency/${data[key]['id']}" class="btn  btn-primary text-white">
+                        <i class="ti-printer mr-1"></i>SOLVENCIA
+                    </a>
                 </td>`;
 
                         }
@@ -428,6 +431,9 @@
                             html += `<td>
                     <a href="#" id="edit" value="${data[key]['id']}" class="btn  btn-warning text-white">
                         <i class="ti-pencil"></i>
+                    </a>
+                    <a href="/citizens/solvency/${data[key]['id']}" class="btn  btn-primary text-white">
+                        <i class="ti-printer">SOLVENCIA</i>
                     </a>
                     </td>`;
 

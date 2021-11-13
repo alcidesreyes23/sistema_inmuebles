@@ -71,6 +71,7 @@ Route::post('/citizens/store', [CitizenController::class, 'store'])->name('citiz
 Route::get('/citizens/delete/{id}', [CitizenController::class, 'destroy']);
 Route::get('/citizens/edit/{id}', [CitizenController::class, 'edit']);
 Route::put('/citizens/update', [CitizenController::class, 'update'])->name('citizens.update');
+Route::get('/citizens/solvency/{id}', [CitizenController::class, 'solvencia'])->name('citizens.solvencia');
 
 /************************************************************************/
 /***************TAX TYPES CRUD ADMIN**********************/
