@@ -9,7 +9,7 @@
         position: absolute !important;
 }
 </style>
-   
+@endsection
 
 @section('content')
     <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -42,8 +42,9 @@
                                 <td>{{ $data->tributo }}</td>
                                 <td>${{ number_format($data->costo, 2) }}</td>
                                 <td>{{ $data->tipo_tributo }}</td>
-                                <td><a href="#" id="edit" value="{{ $data->id }}" class="btn  btn-warning"> Editar </a>
-                                    <a href="#" id="del" value="{{ $data->id }}" class="btn  btn-danger"> Eliminar </a>
+                                <td>
+                                    <a href="#" id="edit" value="{{ $data->id }}" class="btn  btn-warning"> <i class="ti-pencil"></i> </a>
+                                    <a href="#" id="del" value="{{ $data->id }}" class="btn  btn-danger"> <i class="icon-trash"></i> </a>
                                 </td>
                             </tr>
                         @endforeach
@@ -143,7 +144,10 @@
                         extend: 'excelHtml5',
                         text: '<i class="fas fa-file-excel"></i> ',
                         titleAttr: 'Exportar a Excel',
-                        className: 'btn btn-sm btn-success'
+                        className: 'btn btn-sm btn-success',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3]
+                        }
                     },
                     {
                         extend: 'pdfHtml5',
@@ -158,7 +162,10 @@
                         extend: 'print',
                         text: '<i class="fa fa-print"></i> ',
                         titleAttr: 'Imprimir',
-                        className: 'btn btn-sm btn-info'
+                        className: 'btn btn-sm btn-info',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3]
+                        }
                     },
 
                 ],
@@ -252,8 +259,7 @@
         $(document).on("click", "#del", function(e) {
             let idEliminar = $(this).attr("value");
             Swal.fire({
-                title: 'Seguro desea eliminar?',
-                text: "Solo se cambiara el estado del registro",
+                title: "¿Desea eliminar el tributo del sistema?",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',

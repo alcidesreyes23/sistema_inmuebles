@@ -265,8 +265,7 @@
         $(document).on("click", "#del", function(e) {
             let idEliminar = $(this).attr("value");
             Swal.fire({
-                title: 'Seguro desea eliminar?',
-                text: "Solo se cambiara el estado del registro",
+                title: "¿Desea eliminar el propiedad del sistema?",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',

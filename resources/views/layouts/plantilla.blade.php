@@ -18,7 +18,7 @@
     <!-- inject:css -->
     <link rel="stylesheet" href="{{ asset('css2/vertical-layout-light/style.css') }}">
     <!-- endinject -->
-    <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" />
+    <link rel="shortcut icon" href="{{ asset('logohall.png') }}" />
     <!-- endinject -->
 
     <!-- Google Fonts -->
@@ -53,44 +53,59 @@
     @yield('css')
 </head>
 
-<body>
+<body class="sidebar-icon-only">
     <div class="container-scroller">
         <!--Top Navbar -->
         <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
             <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-                <a class="navbar-brand brand-logo mr-5" href="{{ route('index') }}"><img src="images/logo.svg"
-                        class="mr-2" alt="logo" /></a>
+              <a class="navbar-brand brand-logo mr-5" href="{{route('index')}}"><img src="{{ asset('hall.svg') }}" width="200px" alt="Logo"></a>
             </div>
             <div class="navbar-menu-wrapper d-flex align-items-center justify-content-between">
-                <div class="dropdown">
-                    <button type="button" class="btn btn-light dropdown-toggle" id="dropdownMenuIconButton7"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="ti-user"></i>
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuIconButton7" style="">
-                        <h6 class="dropdown-header">Usuario: {{ auth()->user()->rol }} </h6>
-                        <a class="dropdown-item" href="#"><span
-                                class="menu-title">{{ auth()->user()->name }}</span></a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item">
-                            <form action="{{ route('logout') }}" method="POST">
-                                @csrf
-                                <button type="submit" class="btn btn-sm font-weight-bold">
-                                    Log Out
-                                </button>
-                            </form>
-                        </a>
-                    </div>
-                </div>
-                <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
-                    <span class="icon-menu"></span>
-                </button>
-                <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
-                    data-toggle="offcanvas">
-                    <span class="icon-menu"></span>
-                </button>
-            </div>
-        </nav>
+              <div class="dropdown">
+                  <button type="button" class="btn btn-light dropdown-toggle" id="dropdownMenuIconButton7" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="ti-user"></i>
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuIconButton7" style="">
+                    @if(auth()->user()->rol == "Admin")
+                    <h6 class="dropdown-header">Usuario: {{auth()->user()->rol}} </h6>
+                    <h6 class="dropdown-header">Configuraciones Alcalde </h6>
+                    <a class="dropdown-item" href="{{ route('taxtypes.index') }}"><span class="menu-title">Tipos Tributos</span></a>
+                    <a class="dropdown-item" href="{{ route('tax.index') }}"><span class="menu-title">Tributos</span></a>
+                    <a class="dropdown-item" href="{{ route('subdivisiontax.index') }}"><span class="menu-title">Sub Tributos</span></a>
+                    <a class="dropdown-item" href="{{ route('propertytype.index') }}"><span class="menu-title">Tipos Propiedades</span></a>
+                    <a class="dropdown-item" href="{{ route('suburb.index') }}"><span class="menu-title">Colonias</span></a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item">
+                      <form action="{{ route('logout') }}" method="POST">  
+                          @csrf
+                          <button type="submit" class="btn btn-sm btn-danger font-weight-bold">
+                              Log Out
+                            </button>
+                        </form> 
+                    </a>
+                    @else
+                    <h6 class="dropdown-header">Usuario: {{auth()->user()->rol}} </h6>
+                    <h6 class="dropdown-header">Bienvenido {{auth()->user()->name}} </h6>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item">
+                      <form action="{{ route('logout') }}" method="POST">  
+                          @csrf
+                          <button type="submit" class="btn btn-sm btn-danger font-weight-bold">
+                              Log Out
+                            </button>
+                        </form> 
+                    </a>
+                    @endif
+                  </div>
+                </div>   
+              <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+                <span class="icon-menu"></span>
+              </button>
+              <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+                <span class="icon-menu"></span>
+              </button>
+            </div>   
+          </nav>
         <div class="container-fluid page-body-wrapper">
             <!--LeftNavBar -->
             <nav class="sidebar sidebar-offcanvas" id="sidebar">
@@ -101,73 +116,50 @@
                     @if (auth()->user()->rol == 'Admin')
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('personas.index') }}">
-                                <i class="icon-grid menu-icon"></i>
-                                <span class="menu-title">Registro de Usuarios</span>
+                                <i class="fas fa-users"></i>
+                                &nbsp;&nbsp;
+                                <span class="menu-title">Usuarios</span>
                             </a>
                         </li>
                     @endif
 
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('properties.index') }}">
-                            <i class="icon-grid menu-icon"></i>
-                            <span class="menu-title">Gestion de inmuebles</span>
+                            <i class="fas fa-home"></i>
+                            &nbsp;&nbsp;
+                            <span class="menu-title">Registro Inmuebles</span>
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('citizens.index') }}">
-                            <i class="icon-grid menu-icon"></i>
-                            <span class="menu-title">Gestion de ciudadanos</span>
+                            <i class="fas fa-clipboard-list"></i>
+                            &nbsp;&nbsp;
+                            <span class="menu-title">Ciudadanos/Solvencias</span>
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('pagos.index') }}">
-                            <i class="icon-grid menu-icon"></i>
+                            <i class="fas fa-money-check-alt"></i>
+                            &nbsp;&nbsp;
                             <span class="menu-title">Pagos Propiedades</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('property-status.index') }}">
-                            <i class="icon-grid menu-icon"></i>
-                            <span class="menu-title">Estado de Inmuebles</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('account.index') }}">
-                            <i class="icon-grid menu-icon"></i>
+                            <i class="fas fa-file-invoice-dollar"></i>
+                            &nbsp;&nbsp;
                             <span class="menu-title">Estados de cuenta</span>
                         </a>
                     </li>
 
                     @if (auth()->user()->rol == 'Admin')
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false"
-                                aria-controls="ui-basic">
-                                <i class="icon-layout menu-icon"></i>
-                                <span class="menu-title">Catalogos</span>
-                                <i class="menu-arrow"></i>
-                            </a>
-                            <div class="collapse" id="ui-basic">
-                                <ul class="nav flex-column sub-menu">
-                                    <li class="nav-item"> <a class="nav-link"
-                                            href="{{ route('taxtypes.index') }}">Tributo/categorias</a></li>
-                                    <li class="nav-item"> <a class="nav-link"
-                                            href="{{ route('tax.index') }}">Tributos</a></li>
-                                    <li class="nav-item"> <a class="nav-link"
-                                            href="{{ route('subdivisiontax.index') }}">Subdivision tributos</a></li>
-                                    <li class="nav-item"> <a class="nav-link"
-                                            href="{{ route('propertytype.index') }}">Propiedades/categorias</a></li>
-                                    <li class="nav-item"> <a class="nav-link"
-                                            href="{{ route('suburb.index') }}">Colonias</a></li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" href="{{ route('binnacle.index') }}">
-                                <i class="icon-grid menu-icon"></i>
-                                <span class="menu-title">Registro de Bitacora</span>
+                                <i class="fas fa-book-reader"></i>
+                                &nbsp;&nbsp;
+                                <span class="menu-title">Bitácora</span>
                             </a>
                         </li>
                     @endif
@@ -245,6 +237,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/1.0.10/datepicker.min.js"
         integrity="sha512-RCgrAvvoLpP7KVgTkTctrUdv7C6t7Un3p1iaoPr1++3pybCyCsCZZN7QEHMZTcJTmcJ7jzexTO+eFpHk4OCFAg=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     @yield('js')
 </body>
 

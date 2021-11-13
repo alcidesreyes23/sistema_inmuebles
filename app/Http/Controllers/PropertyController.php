@@ -116,7 +116,7 @@ class PropertyController extends Controller
             $newData->monto_pagado = 0;
             $newData->deuda_total = $deuda;
             $newData->save();
-
+            app(BinnacleController::class)->store("Insert", "Registro de tributos a propiedad", auth()->user()->name);
             return response()->json();
         }
     }

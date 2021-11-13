@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTaxTable extends Migration
+class CreateSubdivisionTaxesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateTaxTable extends Migration
      */
     public function up()
     {
-        Schema::create('taxes', function (Blueprint $table) {
+        Schema::create('subdivision_taxes', function (Blueprint $table) {
             $table->id();
-            $table->string('tributo');
+            $table->unsignedBigInteger('tributo_id')->nullable();
+            $table->text('nombre_subdivision');
             $table->float('costo');
-            $table->unsignedBigInteger('taxtype_id')->nullable();
-            $table->foreign('taxtype_id')->references('id')->on('tax_types')->onDelete('set null');
+            $table->foreign('tributo_id')->references('id')->on('taxes')->onDelete('set null');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreateTaxTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('taxes');
+        Schema::dropIfExists('subdivision_taxes');
     }
 }

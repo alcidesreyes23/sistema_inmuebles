@@ -269,8 +269,7 @@
         $(document).on("click", "#del", function(e) {
             let idEliminar = $(this).attr("value");
             Swal.fire({
-                title: 'Seguro desea eliminar?',
-                text: "Solo se cambiara el estado del registro",
+                title: "¿Desea eliminar el ciudadano del sistema?",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -330,7 +329,7 @@
                             "<tr><th scope='col'>NOMBRES</th><th scope='col'>APELLIDOS</th><th scope='col'>GÉNERO</th>";
                         html += "<th scope='col'>DUI</th><th scope='col'>NIT</th><th scope='col'>NACIMIENTO</th>";
                         html +=
-                            "<th scope='col'>EDAD</th><th scope='col'>DUEÑO</th><th scope='col'>ACCIONES</th></tr></thead>";
+                            "<th scope='col'>EDAD</th><th scope='col'>DUEÑO</th><th scope='col'>REGISTRO</th><th scope='col'>ACCIONES</th></tr></thead>";
                         html += "<tbody>";
                         //var tbody = "<tbody>";
                         for (var key in data) {
@@ -343,6 +342,7 @@
                             html += "<td>" + data[key]['fecha_nacimiento'] + "</td>";
                             html += "<td>" + data[key]['edad'] + "</td>";
                             html += "<td>" + data[key]['posee_inmueble'] + "</td>";
+                            html += "<td>" + data[key]['created_at'] + "</td>";
                             html += `<td>
                 <a href="#" id="edit" value="${data[key]['id']}" class="btn  btn-warning text-white">
                     <i class="ti-pencil"></i>

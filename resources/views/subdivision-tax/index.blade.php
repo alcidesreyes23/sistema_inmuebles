@@ -44,8 +44,9 @@
                                 <td>{{ $data->nombre_subdivision }}</td>
                                 <td>${{ number_format($data->costo, 2) }}</td>
                                 <td>{{ $data->tributo }}</td>
-                                <td><a href="#" id="edit" value="{{ $data->id }}" class="btn  btn-warning"> Editar </a>
-                                    <a href="#" id="del" value="{{ $data->id }}" class="btn  btn-danger"> Eliminar </a>
+                                <td>
+                                    <a href="#" id="edit" value="{{ $data->id }}" class="btn  btn-warning"> <i class="ti-pencil"></i> </a>
+                                    <a href="#" id="del" value="{{ $data->id }}" class="btn  btn-danger"> <i class="icon-trash"></i> </a>
                                 </td>
                             </tr>
                         @endforeach
@@ -261,8 +262,7 @@
         $(document).on("click", "#del", function(e) {
             let idEliminar = $(this).attr("value");
             Swal.fire({
-                title: 'Seguro desea eliminar?',
-                text: "Solo se cambiara el estado del registro",
+                title: "¿Desea eliminar el sub tributo del sistema?",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',

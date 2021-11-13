@@ -171,7 +171,7 @@
                     dataType: "json",
                     data: data,
                     success: function(response) {
-                        var mensaje = (response) ? 'Pago exitoso!.' : 'Error al realizar pago';
+                        var mensaje = (response) ? 'Tributos Asignados' : 'Error al realizar asignacion';
                         toastr.success(mensaje, 'Pago', {
                             timeOut: 4000
                         });
@@ -187,8 +187,7 @@
             $(document).on("click", "#del", function(e) {
             let idEliminar = $(this).attr("value");
             Swal.fire({
-                title: 'Seguro desea eliminar?',
-                text: "Solo se cambiara el estado del registro",
+                title: "¿Desea eliminar el tributo de la propiedad?",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',

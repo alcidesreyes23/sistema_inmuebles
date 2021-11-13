@@ -48,7 +48,8 @@
                         </div>
                         <div class="col-12 col-sm-12 col-md-6 my-2">
                             <p class="text-muted text-gray">Password</p>
-                            <input class="form-control" type="password" id="txPass" name="password" placeholder="Password">
+                            <input class="form-control" type="password" id="txPass" name="password"
+                                placeholder="Password">
                             <small id="passV" class="text-danger"></small>
                         </div>
                         <div class="col-12 col-sm-12 col-md-6 my-2">
@@ -167,9 +168,12 @@
                 },
                 error: function(res2) {
                     const errors = res2.responseJSON.errors;
-                    (errors.name != undefined) ? $("#nombreV").text(`*${errors.name}`): $("#nombreV").hide();
-                    (errors.email != undefined) ? $("#emailV").text(`*${errors.email}`): $("#emailV").hide();
-                    (errors.password != undefined) ? $("#passV").text(`*${errors.password}`): $("#passV").hide();
+                    (errors.name != undefined) ? $("#nombreV").text(`*${errors.name}`): $("#nombreV")
+                        .hide();
+                    (errors.email != undefined) ? $("#emailV").text(`*${errors.email}`): $("#emailV")
+                        .hide();
+                    (errors.password != undefined) ? $("#passV").text(`*${errors.password}`): $(
+                        "#passV").hide();
                     (errors.rol != undefined) ? $("#rolV").text(`*${errors.rol}`): $("#rolV").hide();
                 }
             })
@@ -197,10 +201,12 @@
                 error: function(res3) {
 
                     const errors = res3.responseJSON.errors;
-                    (errors.name != undefined) ? $("#nombreV2").text(`*${errors.name}`): $("#nombreV2").hide();
-                    (errors.email != undefined) ? $("#emailV2").text(`*${errors.email}`): $("#emailV2").hide();
+                    (errors.name != undefined) ? $("#nombreV2").text(`*${errors.name}`): $("#nombreV2")
+                        .hide();
+                    (errors.email != undefined) ? $("#emailV2").text(`*${errors.email}`): $("#emailV2")
+                        .hide();
                     (errors.rol != undefined) ? $("#rolV2").text(`*${errors.rol}`): $("#rolV2").hide();
-                    
+
                 }
             })
 
@@ -229,8 +235,7 @@
         $(document).on("click", "#del", function(e) {
             let idEliminar = $(this).attr("value");
             Swal.fire({
-                title: 'Seguro desea eliminar?',
-                text: "Solo se cambiara el estado del registro",
+                title: "¿Desea eliminar el usuario del sistema?",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -271,12 +276,12 @@
                         html += "<td>" + data[key]['email'] + "</td>";
                         html += "<td>" + data[key]['rol'] + "</td>";
                         html += `<td>
-                                    <a href="#" id="edit" value="${data[key]['id']}" class="btn  btn-warning">
-                                    Editar
-                                    </a>
-                                    <a href="#" id="del" value="${data[key]['id']}" class="btn  btn-danger">
-                                    Eliminar
-                                    </a>
+                            <a href="#" id="edit" value="${data[key]['id']}" class="btn  btn-warning text-white">
+                    <i class="ti-pencil"></i>
+                </a>
+                <a href="#" id="del" value="${data[key]['id']}" class="btn  btn-danger text-white">
+                  <i class="icon-trash"></i>
+                </a>
                                     </td>`;
                     }
                     html += "</tr></tbody></table>"
